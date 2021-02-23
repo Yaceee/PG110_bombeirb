@@ -44,12 +44,17 @@ struct map* map_new(int width, int height)
 	  for (j = 0; j < height; j++)
 	    map->grid[CELL(i,j)] = CELL_EMPTY;
 
+
 	return map;
 }
 
-int map_is_inside(struct map* map, int x, int y)
+int map_is_inside(struct map* map, int x, int y) // Vérifie si la case de coordonnée x,y est dans la map
 {
 	assert(map);
+	if ((x>map->width-1) || (x<0) || (y>( map->height-1)) || (y<0)) // (x,y) allant de (0,0) à (width-1, height-1)
+	{
+		return 0;
+	}
 	return 1;
 }
 
