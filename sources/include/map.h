@@ -71,4 +71,6 @@ struct map* map_get_static();
 // Display the map on the screen
 void map_display(struct map* map);
 
+int box_collsion(struct map* map, int x, int y, int dir);
+
 #endif /* MAP_H_ */
