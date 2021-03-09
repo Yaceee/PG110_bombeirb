@@ -67,6 +67,8 @@ SDL_Surface* door_opened;
 SDL_Surface* door_closed;
 SDL_Surface* stone;
 SDL_Surface* tree;
+SDL_Surface* bomb;
+
 
 // bonus
 #define NB_BONUS 4
@@ -118,6 +120,11 @@ static void map_load() {
 	door_closed = image_load(MAP_DOOR_CLOSED);
 }
 
+static void bomb_load()
+{
+	bomb = image_load(BOMB_TTL1);
+}
+
 static void map_unload() {
 	SDL_FreeSurface(tree);
 	SDL_FreeSurface(box);
@@ -159,6 +166,7 @@ void sprite_load() {
 	bonus_load();
 	banner_load();
 	player_load();
+	bomb_load();
 }
 
 void sprite_free() {
@@ -166,6 +174,7 @@ void sprite_free() {
 	bonus_unload();
 	banner_unload();
 	player_unload();
+	//bomb_unload();
 }
 
 SDL_Surface* sprite_get_number(short number) {
@@ -221,6 +230,11 @@ SDL_Surface* sprite_get_key() {
 SDL_Surface* sprite_get_stone() {
 	assert(stone);
 	return stone;
+}
+
+SDL_Surface* sprite_get_bomb() {
+	assert(bomb);
+	return bomb;
 }
 
 SDL_Surface* sprite_get_door_opened() {

@@ -9,6 +9,7 @@
 #include <misc.h>
 #include <window.h>
 #include <sprite.h>
+#include <bomb.h>
 
 struct game {
 	struct map** maps;       // the game's map
@@ -94,21 +95,7 @@ void game_display(struct game* game) {
 
 	window_refresh();
 }
-///////////////// deposition de bombe pas encore finie
-void put_bomb(struct player* player)
-{
-	if (player_get_nb_bomb==0)
-	{
-		return 0;
-	}
-	else
-	{
-		player_dec_nb_bomb(player);
-		map_set_cell_type(map,x,y,Bomb)
-		return 1;
-	}
 
-}
 
 static short input_keyboard(struct game* game) {
 	SDL_Event event;
@@ -141,7 +128,7 @@ static short input_keyboard(struct game* game) {
 				player_move(player, map);
 				break;
 			case SDLK_SPACE:
-				put_bomb(player);
+				put_bomb(player,map);
 				break;
 			default:
 				break;
