@@ -10,6 +10,7 @@
 #include <window.h>
 #include <misc.h>
 #include <constant.h>
+#include <bonus.h>
 
 struct player {
 	int x, y;
@@ -86,6 +87,9 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 		break;
 
 	case CELL_BONUS:
+		bonus_effect(player, map_get_cell(map, x, y));
+		map_set_cell_type(map, x, y, CELL_EMPTY);
+		return 1;
 		break;
 
 	case CELL_MONSTER:
