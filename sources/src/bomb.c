@@ -46,12 +46,10 @@ void bomb_display(struct bomb * bomb) {
 
 
 
-
-
 ///////////////// deposition de bombe pas encore finie
 void put_bomb(struct player* player,struct map* map)
 {
-	struct bomb * bomb =bomb_init(1); ///////////////////// passer le 1 en parametre
+	//struct bomb * bomb =bomb_init(1); ///////////////////// passer le 1 en parametre
 	if (player_get_nb_bomb(player)==0)
 	{
 		return ;
@@ -59,7 +57,8 @@ void put_bomb(struct player* player,struct map* map)
 	else
 	{
 		player_dec_nb_bomb(player);
-		bomb_display(bomb);
+		//bomb_display(bomb);
+		map_set_cell_type(map,player_get_x(player) , player_get_y(player), CELL_BOMB);
 		return ;
 	}
 
