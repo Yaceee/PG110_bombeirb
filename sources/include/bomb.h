@@ -19,5 +19,6 @@ void bomb_set_position(struct player *player,struct bomb *bomb);
 
 // Display the bomb on the screen
 void bomb_display(struct bomb* bomb);
+void put_bomb(struct player* player,struct map* map);
 
 #endif /* PLAYER_H_ */
