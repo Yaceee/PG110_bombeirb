@@ -71,18 +71,18 @@ void player_dec_nb_bomb(struct player* player) {
 	player->bombs -= 1;
 }
 
-static int player_move_aux(struct player* player, struct map* map, int x, int y) {
+static int player_move_aux(struct player* player, struct map* map, int x, int y, int dir) { //ajout direction en entrée pour la gestion des boites
 
 	if (!map_is_inside(map, x, y))
 		return 0;
 
 	switch (map_get_cell_type(map, x, y)) {
 	case CELL_SCENERY:
-		return 1;
+		return 0; // pas de déplacement possible si décor
 		break;
 
 	case CELL_BOX:
-		return 1;
+		return box_collsion(map, x, y, dir); //retourne résultat fontion collsion des boites
 		break;
 
 	case CELL_BONUS:
@@ -106,28 +106,28 @@ int player_move(struct player* player, struct map* map) {
 
 	switch (player->direction) {
 	case NORTH:
-		if (player_move_aux(player, map, x, y - 1)) {
+		if (player_move_aux(player, map, x, y - 1, NORTH)) {
 			player->y--;
 			move = 1;
 		}
 		break;
 
 	case SOUTH:
-		if (player_move_aux(player, map, x, y + 1)) {
+		if (player_move_aux(player, map, x, y + 1, SOUTH)) {
 			player->y++;
 			move = 1;
 		}
 		break;
 
 	case WEST:
-		if (player_move_aux(player, map, x - 1, y)) {
+		if (player_move_aux(player, map, x - 1, y, WEST)) {
 			player->x--;
 			move = 1;
 		}
 		break;
 
 	case EAST:
-		if (player_move_aux(player, map, x + 1, y)) {
+		if (player_move_aux(player, map, x + 1, y, EAST)) {
 			player->x++;
 			move = 1;
 		}

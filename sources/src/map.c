@@ -44,12 +44,17 @@ struct map* map_new(int width, int height)
 	  for (j = 0; j < height; j++)
 	    map->grid[CELL(i,j)] = CELL_EMPTY;
 
+
 	return map;
 }
 
-int map_is_inside(struct map* map, int x, int y)
+int map_is_inside(struct map* map, int x, int y) // Vérifie si la case de coordonnée x,y est dans la map
 {
 	assert(map);
+	if ((x>map->width-1) || (x<0) || (y>( map->height-1)) || (y<0)) // (x,y) allant de (0,0) à (width-1, height-1)
+	{
+		return 0;
+	}
 	return 1;
 }
 
@@ -155,6 +160,80 @@ void map_display(struct map* map)
 	}
 }
 
+int box_collsion(struct map* map, int x, int y, int dir) //prend en entrée la map, coordonnées de la boite et directin de déplacement
+{
+	switch (dir) //conditionnement sur la direction
+	{
+	case NORTH:
+		if(map_is_inside(map, x, y-1)) //test pour savoir si la position d'arrivée est dans la map
+		{
+			if(map_get_cell_type(map, x, y-1) == CELL_EMPTY) //test si la position d'arrivée est vide
+			{
+				map_set_cell_type(map, x, y-1, CELL_BOX); //échange case d'arrivée et case de départ
+				map_set_cell_type(map, x, y, CELL_EMPTY);
+				return 1; //déplacement effectué, retourne 1
+			}
+			else
+			{
+				return 0; //déplacement impossible
+			}
+		}
+		break;
+	
+	case SOUTH:
+		if(map_is_inside(map, x, y+1))
+		{
+			if(map_get_cell_type(map, x, y+1) == CELL_EMPTY)
+			{
+				map_set_cell_type(map, x, y+1, CELL_BOX);
+				map_set_cell_type(map, x, y, CELL_EMPTY);
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		break;
+
+	case EAST:
+		if(map_is_inside(map, x+1,y))
+		{
+			if(map_get_cell_type(map, x+1, y) == CELL_EMPTY)
+			{
+				map_set_cell_type(map, x+1, y, CELL_BOX);
+				map_set_cell_type(map, x, y, CELL_EMPTY);
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		break;
+
+	case WEST:
+		if(map_is_inside(map, x-1, y))
+		{
+			if(map_get_cell_type(map, x-1, y) == CELL_EMPTY)
+			{
+				map_set_cell_type(map, x-1, y, CELL_BOX);
+				map_set_cell_type(map, x, y, CELL_EMPTY);
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		break;
+
+	default:
+		break;
+	}
+	return 0; //retourne 0 si déplacement hors de la map
+}
+
 struct map* map_get_static(void)
 {
 	struct map* map = map_new(STATIC_MAP_WIDTH, STATIC_MAP_HEIGHT);
@@ -167,7 +246,7 @@ struct map* map_get_static(void)
 	  CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_BOX, CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
 	  CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_STONE, CELL_STONE, CELL_EMPTY, CELL_EMPTY, CELL_STONE, CELL_EMPTY, CELL_EMPTY,
 	  CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY , CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
-	  CELL_EMPTY, CELL_TREE, CELL_BOX, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,  CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
+	  CELL_EMPTY, CELL_TREE, CELL_BOX, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_BOX,  CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
 	  CELL_EMPTY, CELL_TREE, CELL_TREE, CELL_TREE, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY,  CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
 	  CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_EMPTY, CELL_STONE,  CELL_EMPTY, CELL_EMPTY,
 	  CELL_BOX, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE, CELL_STONE,  CELL_BOX_LIFE, CELL_EMPTY,
