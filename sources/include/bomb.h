@@ -13,8 +13,11 @@ struct bomb;
 struct bomb* bomb_init(int range);
 void   bomb_free(struct bomb *bomb);
 
-// Set the position of the bomb
+//gere les explosions
+int condition_explosion(struct map * map,int x ,int y);
+void explosion(struct bomb * bomb, struct map * map);
 
+//main
 void put_bomb(struct player* player,struct map* map);
 
 #endif /* PLAYER_H_ */
