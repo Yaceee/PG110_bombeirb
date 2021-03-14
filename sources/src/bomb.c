@@ -32,6 +32,41 @@ void bomb_free(struct bomb * bomb) {
 	free(bomb);
 }
 
+int condition_explosion(struct map * map,int x ,int y){
+	if(map_is_inside(map,x,y)){// si dans le terrain
+		if(map_get_cell_type(map,x,y)==0 || map_get_cell_type(map,x,y)==32){ // si c'est cassable
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void explosion(struct bomb * bomb, struct map * map)
+{
+	int compteur=1;
+	while (bomb->area>=compteur && condition_explosion(map,bomb->x+compteur,bomb->y)==1){
+		map_set_cell_type(map,bomb->x+(compteur) , bomb->y, CELL_TREE);
+		compteur+=1;
+	}
+	compteur=1;
+	while (bomb->area>=compteur && condition_explosion(map,bomb->x,bomb->y+(compteur))==1){
+		map_set_cell_type(map,bomb->x , bomb->y+(compteur), CELL_TREE);
+		compteur+=1;
+	}
+	compteur=1;
+	while (bomb->area>=compteur && condition_explosion(map,bomb->x-(compteur),bomb->y)==1){
+		map_set_cell_type(map,bomb->x-(compteur) , bomb->y, CELL_TREE);
+		compteur+=1;
+	}
+	compteur=1;
+	while (bomb->area>=compteur && condition_explosion(map,bomb->x,bomb->y-(compteur))==1){
+		map_set_cell_type(map,bomb->x , bomb->y-(compteur), CELL_TREE);
+		compteur+=1;	
+	}
+			
+		
+}
+
 
 
 
@@ -50,15 +85,9 @@ void put_bomb(struct player* player,struct map* map)
 		map_set_cell_type(map,bomb->x , bomb->y, CELL_TREE);
 		
 		//mettre les differentes bombes
-		///explosion
-		while (bomb->area>=0){
-			map_set_cell_type(map,bomb->x+(bomb->area) , bomb->y, CELL_TREE);
-			map_set_cell_type(map,bomb->x , bomb->y+(bomb->area), CELL_TREE);
-			map_set_cell_type(map,bomb->x-(bomb->area) , bomb->y, CELL_TREE);
-			map_set_cell_type(map,bomb->x , bomb->y-(bomb->area), CELL_TREE);
-			bomb->area-=1;
-		}
-		
+
+		///explosion affichage 
+		explosion(bomb,map);
 		return ;
 	}
 
