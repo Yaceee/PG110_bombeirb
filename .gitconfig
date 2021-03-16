@@ -1,0 +1,14 @@
+[yacine]
+	email = ylaghdiri@enseirb-matmeca.fr
+[user]
+	email = ylaghdiri@enseirb-matmeca.fr
+	name = Yacine Laghdiri
+[push]
+	default = simple
+
+[commit]
+    signOff = true
+
+[credential]	
+	helper = cache --timeout=3600
+
