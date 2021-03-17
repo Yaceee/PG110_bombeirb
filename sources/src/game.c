@@ -91,8 +91,8 @@ void game_display(struct game* game) {
 	window_clear();
 	game_banner_display(game);
 	map_display(game_get_current_map(game));
+	bomb_display(game_get_current_map(game));
 	player_display(game->player);
-
 	window_refresh();
 }
 
