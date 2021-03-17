@@ -124,6 +124,25 @@ void display_scenery(struct map* map, int x, int  y, unsigned char type)
 		break;
 	}
 }
+void different_bomb_display(struct map* map, int x, int  y, unsigned char type)
+{
+	switch (type & 0x0f) {
+		case BOMB_1:
+	      window_display_image(sprite_get_bomb(1), x, y);
+		case BOMB_2:
+	      window_display_image(sprite_get_bomb(2), x, y);
+	      break;
+	    case BOMB_3:
+	      window_display_image(sprite_get_bomb(3), x, y);
+	      break;
+	    case BOMB_4:
+	      window_display_image(sprite_get_bomb(4), x, y);
+	      break;
+	    case BOMB_5:
+	      window_display_image(sprite_get_bomb(5), x, y);
+	      break;
+	}
+}
 
 void map_display(struct map* map)
 {
@@ -145,6 +164,11 @@ void map_display(struct map* map)
 	    case CELL_BOX:
 	      window_display_image(sprite_get_box(), x, y);
 	      break;
+
+	    case CELL_BOMB:
+	      differentes_bomb_display(map, x, y, type);
+	      break;
+	    
 	    case CELL_BONUS:
 	      display_bonus(map, x, y, type);
 	      break;
