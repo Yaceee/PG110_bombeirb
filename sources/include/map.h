@@ -86,6 +86,7 @@ struct map* map_get_static();
 
 // Display the map on the screen
 void map_display(struct map* map);
+void different_bomb_display(struct map* map, int x, int  y, unsigned char type);
 
 int box_collsion(struct map* map, int x, int y, int dir);
 
