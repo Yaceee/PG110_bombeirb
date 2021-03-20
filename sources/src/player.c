@@ -16,15 +16,19 @@ struct player {
 	int x, y;
 	enum direction direction;
 	int bombs;
+	int bomb_range;
+	int life;
 };
 
-struct player* player_init(int bombs) {
+struct player* player_init(int bombs, int life) {
 	struct player* player = malloc(sizeof(*player));
 	if (!player)
 		error("Memory error");
 
 	player->direction = NORTH;
+	player->bomb_range = 1;
 	player->bombs = bombs;
+	player->life = life;
 
 	return player;
 }
@@ -62,6 +66,18 @@ int player_get_nb_bomb(struct player* player) {
 	return player->bombs;
 }
 
+int player_get_range_bomb(struct player* player)
+{
+	assert(player);
+	return player->bomb_range;
+}
+
+int player_get_nb_life(struct player* player)
+{
+	assert(player);
+	return player->life;
+}
+
 void player_inc_nb_bomb(struct player* player) {
 	assert(player);
 	player->bombs += 1;
@@ -70,6 +86,27 @@ void player_inc_nb_bomb(struct player* player) {
 void player_dec_nb_bomb(struct player* player) {
 	assert(player);
 	player->bombs -= 1;
+}
+
+void player_inc_range_bomb(struct player* player)
+{
+	assert(player);
+	player->bomb_range += 1;
+}
+
+void player_dec_range_bomb(struct player* player)
+{
+	assert(player);
+	if (player->bomb_range > 1)
+	{
+		player->bomb_range -= 1;
+	}
+}
+
+void player_inc_life(struct player* player)
+{
+	assert(player);
+	player->life += 1;
 }
 
 static int player_move_aux(struct player* player, struct map* map, int x, int y, int dir) { //ajout direction en entrée pour la gestion des boites

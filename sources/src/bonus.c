@@ -18,6 +18,15 @@ void bonus_effect(struct player *player, unsigned char type)
     case BONUS_BOMB_NB_DEC:
         player_dec_nb_bomb(player);
         break;
+    case BONUS_BOMB_RANGE_INC:
+        player_inc_range_bomb(player);
+        break;
+    case BONUS_BOMB_RANGE_DEC:
+        player_dec_range_bomb(player);
+        break;
+    case BONUS_LIFE:
+        player_inc_life(player);
+        break;
     default:
         break;
     }

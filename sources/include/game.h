@@ -6,6 +6,7 @@
 #define GAME_H_
 
 #include <player.h>
+#include <monster.h>
 #include <map.h>
 
 // Abstract data type
