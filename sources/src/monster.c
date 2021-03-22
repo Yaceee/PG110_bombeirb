@@ -6,21 +6,27 @@
 #include <window.h>
 #include <misc.h>
 #include <constant.h>
+#include <stdlib.h>
+#include <time.h>
 
 
 
 struct monster {
     int x, y;
 	enum direction direction;
+	int speed;
+	int compteur;
 };
 
-struct monster* monster_init()
+struct monster* monster_init(int s)
 {
     struct monster* monster = malloc(sizeof(*monster));
     if (!monster)
 		error("Memory error");
 
 	monster->direction = NORTH;
+	monster->speed = s;
+	monster->compteur = 0;
 
 	return monster;
 }
@@ -118,9 +124,26 @@ int monster_move(struct monster* monster, struct map* map) {
 	return move;
 }
 
+void monster_random(struct monster* monster, struct map* map)
+{
+	srand(time(NULL));
+	if (monster->compteur >= DEFAULT_GAME_FPS*(monster->speed/1000))
+	{
+		int random_dir = rand() % 4;
+		monster->direction = random_dir;
+		monster_move(monster, map);
+		monster->compteur = 0;
+	}
+	
+	else{
+		monster->compteur += 1;
+	}
+	
+}
 
-void monster_display(struct monster* monster) {
+void monster_display(struct monster* monster, struct map* map) {
 	assert(monster);
+	monster_random(monster, map);
 	window_display_image(sprite_get_monster(monster->direction),
 			monster->x * SIZE_BLOC, monster->y * SIZE_BLOC);
 }

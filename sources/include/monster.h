@@ -11,7 +11,7 @@
 struct monster;
 
 // Creates a new monster with a given number of available bombs
-struct monster* monster_init();
+struct monster* monster_init(int s);
 void   monster_free(struct monster* monster);
 
 // Set the position of the monster
@@ -28,6 +28,6 @@ void monster_set_current_way(struct monster * monster, enum direction direction)
 int monster_move(struct monster* monster, struct map* map);
 
 // Display the monster on the screen
-void monster_display(struct monster* monster);
+void monster_display(struct monster* monster, struct map* map);
 
 #endif /* monster_H_ */

@@ -32,7 +32,7 @@ game_new(void) {
 	// Set default location of the player
 	player_set_position(game->player, 1, 0);
 
-	game->monster = monster_init();
+	game->monster = monster_init(1000);
 	monster_set_position(game->monster, 1, 2);
 
 	return game;
@@ -95,8 +95,7 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	map_display(game_get_current_map(game));
 	player_display(game->player);
-	monster_display(game->monster);
-
+	monster_display(game->monster, game_get_current_map(game->maps));
 	window_refresh();
 }
 
