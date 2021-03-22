@@ -57,8 +57,15 @@ enum compose_type {
     CELL_BOX_RANGEDEC = CELL_BOX | BONUS_BOMB_RANGE_INC,
 	CELL_BOX_BOMBINC  = CELL_BOX | BONUS_BOMB_NB_DEC,
     CELL_BOX_BOMBDEC  = CELL_BOX | BONUS_BOMB_NB_INC,
-    CELL_BOX_LIFE     = CELL_BOX | BONUS_MONSTER,
-    CELL_BOX_MONSTER  = CELL_BOX | BONUS_LIFE,
+    CELL_BOX_LIFE     = CELL_BOX | BONUS_LIFE,
+    CELL_BOX_MONSTER  = CELL_BOX | BONUS_MONSTER,
+
+	CELL_RANGEINC     = CELL_BONUS | BONUS_BOMB_RANGE_INC,
+	CELL_RANGEDEC     = CELL_BONUS | BONUS_BOMB_RANGE_DEC,
+	CELL_BOMBINC      = CELL_BONUS | BONUS_BOMB_NB_INC,
+	CELL_BOMBDEC      = CELL_BONUS | BONUS_BOMB_NB_DEC,
+	CELL_LIFE         = CELL_BONUS | BONUS_LIFE,
+
 };
 
 struct map;
@@ -75,6 +82,8 @@ int map_get_height(struct map* map);
 // Return the type of a cell
 enum cell_type map_get_cell_type(struct map* map, int x, int y);
 
+enum compose_type map_get_cell(struct map* map, int x, int y);
+
 // Set the type of a cell
 void  map_set_cell_type(struct map* map, int x, int y, enum cell_type type);
 
@@ -88,6 +97,7 @@ struct map* map_get_static();
 void map_display(struct map* map);
 void different_bomb_display(struct map* map, int x, int  y, unsigned char type);
 
+//collision avec les boites
 int box_collsion(struct map* map, int x, int y, int dir);
 
 #endif /* MAP_H_ */
