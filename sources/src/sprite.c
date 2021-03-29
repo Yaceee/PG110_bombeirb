@@ -39,6 +39,7 @@
 #define BOMB_TTL2       "sprite/bomb2.png"
 #define BOMB_TTL3       "sprite/bomb3.png"
 #define BOMB_TTL4       "sprite/bomb4.png"
+#define BOMB_TTL5       "sprite/explosion.png"
 
 // Sprites of Bonus
 #define IMG_BONUS_BOMB_RANGE_INC  "sprite/bonus_bomb_range_inc.png"
@@ -74,6 +75,12 @@ SDL_Surface* door_opened;
 SDL_Surface* door_closed;
 SDL_Surface* stone;
 SDL_Surface* tree;
+SDL_Surface* bomb_1;
+SDL_Surface* bomb_2;
+SDL_Surface* bomb_3;
+SDL_Surface* bomb_4;
+SDL_Surface* bomb_5;
+
 
 // bonus
 #define NB_BONUS 5
@@ -126,6 +133,15 @@ static void map_load() {
 	stone = image_load(MAP_STONE);
 	door_opened = image_load(MAP_DOOR_OPENED);
 	door_closed = image_load(MAP_DOOR_CLOSED);
+}
+
+static void bomb_load()
+{
+	bomb_1 = image_load(BOMB_TTL1);
+	bomb_2 = image_load(BOMB_TTL2);
+	bomb_3 = image_load(BOMB_TTL3);
+	bomb_4 = image_load(BOMB_TTL4);
+	bomb_5 = image_load(BOMB_TTL5);
 }
 
 static void map_unload() {
@@ -184,6 +200,7 @@ void sprite_load() {
 	bonus_load();
 	banner_load();
 	player_load();
+	bomb_load();  ////////////////////////////remi
 	monster_load();
 }
 
@@ -192,6 +209,7 @@ void sprite_free() {
 	bonus_unload();
 	banner_unload();
 	player_unload();
+	//bomb_unload();
 	monster_unload();
 }
 
@@ -254,6 +272,30 @@ SDL_Surface* sprite_get_key() {
 SDL_Surface* sprite_get_stone() {
 	assert(stone);
 	return stone;
+}
+
+SDL_Surface* sprite_get_bomb(int time) { //permet d'envoyer la bonne image de bomb en fonction du time ( les indices sont bon)
+	assert(bomb_1);
+	assert(bomb_2);
+	assert(bomb_3);
+	assert(bomb_4);
+	assert(bomb_5);
+	if(time==4){
+		return bomb_1;
+	} 
+	if(time==3){
+		return bomb_2;
+	} 
+	if(time==2){
+		return bomb_4;
+	} 
+	if(time==1){
+		return bomb_4;
+	} 
+	if(time==5){
+		return bomb_5;
+	}
+	return 0;
 }
 
 SDL_Surface* sprite_get_door_opened() {

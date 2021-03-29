@@ -8,6 +8,7 @@
 #include <player.h>
 #include <monster.h>
 #include <map.h>
+#include <bomb.h>
 
 // Abstract data type
 struct game;

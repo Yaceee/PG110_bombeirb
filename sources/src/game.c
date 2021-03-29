@@ -9,6 +9,7 @@
 #include <misc.h>
 #include <window.h>
 #include <sprite.h>
+#include <bomb.h>
 
 struct game {
 	struct map** maps;       // the game's map
@@ -33,7 +34,7 @@ game_new(void) {
 	player_set_position(game->player, 1, 0);
 
 	game->monster = monster_init(1000);
-	monster_set_position(game->monster, 1, 2);
+	monster_set_position(game->monster, 1, 3);
 
 	return game;
 }
@@ -94,10 +95,12 @@ void game_display(struct game* game) {
 	window_clear();
 	game_banner_display(game);
 	map_display(game_get_current_map(game));
+	bomb_display(game_get_current_map(game));
 	player_display(game->player);
-	monster_display(game->monster, game_get_current_map(game->maps));
+	monster_display(game->monster, game_get_current_map(game));
 	window_refresh();
 }
+
 
 static short input_keyboard(struct game* game) {
 	SDL_Event event;
@@ -130,6 +133,7 @@ static short input_keyboard(struct game* game) {
 				player_move(player, map);
 				break;
 			case SDLK_SPACE:
+				put_bomb(player,map);
 				break;
 			default:
 				break;
