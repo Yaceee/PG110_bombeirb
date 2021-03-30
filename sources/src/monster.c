@@ -37,6 +37,23 @@ void monster_free(struct monster* monster) {
 	free(monster);
 }
 
+void monster_load(struct monster* monster[], struct map* map, int *nb_monster)
+{
+	*nb_monster = 0;
+	for (int i = 0; i<STATIC_MAP_WIDTH;i++)
+	{
+		for (int j = 0;j<STATIC_MAP_HEIGHT;j++)
+		{
+			if(map_get_cell(map, i, j) == CELL_MONSTER)
+			{
+				monster[*nb_monster] = monster_init(1000);
+				monster_set_position(monster[*nb_monster], i, j);
+				*nb_monster += 1;
+			}
+		}
+	}
+}
+
 void monster_set_position(struct monster *monster, int x, int y) {
 	assert(monster);
 	monster->x = x;
