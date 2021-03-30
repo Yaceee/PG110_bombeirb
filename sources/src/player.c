@@ -11,6 +11,9 @@
 #include <misc.h>
 #include <constant.h>
 #include <bonus.h>
+#include <bomb.h>
+
+int Ancien_temps=0;
 
 struct player {
 	int x, y;
@@ -109,6 +112,12 @@ void player_inc_life(struct player* player)
 	player->life += 1;
 }
 
+void player_dec_life(struct player* player)
+{
+	assert(player);
+	player->life -= 1;
+}
+
 static int player_move_aux(struct player* player, struct map* map, int x, int y, int dir) { //ajout direction en entrée pour la gestion des boites
 
 	if (!map_is_inside(map, x, y))
@@ -181,8 +190,35 @@ int player_move(struct player* player, struct map* map) {
 	return move;
 }
 
-void player_display(struct player* player) {
+int invulnerability()
+{
+	int tempsActuel = SDL_GetTicks();
+	if (tempsActuel-Ancien_temps<1000)
+	{
+		return 1;
+	}
+	return 0;
+}
+void adjust_Ancien_temps()
+{
+	Ancien_temps = SDL_GetTicks();
+}
+void player_dammage(struct player* player, struct map * map)
+{
+	
+	if (invulnerability()==0)//invulnerabilité du personnage pendant 1 secoonde
+	{
+		adjust_Ancien_temps();
+		if (explosion_dead(map,player->x,player->y)==0)
+		{
+			player_dec_life(player);
+		}
+	}
+}
+
+void player_display(struct player* player, struct map * map) {
 	assert(player);
+	player_dammage(player,map);
 	window_display_image(sprite_get_player(player->direction),
 			player->x * SIZE_BLOC, player->y * SIZE_BLOC);
 }

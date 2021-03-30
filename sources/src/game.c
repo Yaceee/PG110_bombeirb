@@ -96,7 +96,7 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	map_display(game_get_current_map(game));
 	bomb_display(game_get_current_map(game));
-	player_display(game->player);
+	player_display(game->player, game_get_current_map(game));
 	monster_display(game->monster);
 	window_refresh();
 }
@@ -146,7 +146,7 @@ static short input_keyboard(struct game* game) {
 }
 
 int game_update(struct game* game) {
-	if (input_keyboard(game))
+	if (input_keyboard(game) || player_get_nb_life(game->player) <1)
 		return 1; // exit game
 
 	return 0;

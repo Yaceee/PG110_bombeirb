@@ -220,7 +220,7 @@ SDL_Surface* sprite_get_number(short number) {
 
 SDL_Surface* sprite_get_player(enum direction direction) {
 	assert(player_img[direction]);
-	return player33_img[direction];
+	return player_img[direction];
 }
 
 SDL_Surface* sprite_get_monster(enum direction direction)

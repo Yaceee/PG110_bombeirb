@@ -33,12 +33,16 @@ void player_dec_nb_bomb(struct player * player);
 void player_inc_range_bomb(struct player * player);
 void player_dec_range_bomb(struct player * player);
 void player_inc_life(struct player* player);
-
+void player_dec_life(struct player* player);
 
 // Move the player according to the current direction
 int player_move(struct player* player, struct map* map);
 
+int invulnerability();
+void adjust_Ancien_temps();
+void player_dammage(struct player* player, struct map * map);
+
 // Display the player on the screen
-void player_display(struct player* player);
+void player_display(struct player* player,struct map * map);
 
 #endif /* PLAYER_H_ */
