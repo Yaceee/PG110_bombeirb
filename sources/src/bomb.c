@@ -135,7 +135,6 @@ void explosion(struct bomb * bomb, struct map * map, enum cell_type CELL,int ind
 		}
 		if ( map_get_cell(map,bomb->x+(compteur), bomb->y)!= CELL_EXPLOSION)// Pour pas qu'il garde en memoire la CELL_EXPLOSION
 		{
-			printf("passage droite\n");
 			tab_cell[j+i+k]=cell_init(&tab_cell[j+i+k],bomb->x+(compteur) , bomb->y, map_get_cell(map,bomb->x+(compteur) , bomb->y));
 		}
 		map_set_cell_type(map,bomb->x+(compteur) , bomb->y, CELL);
@@ -151,7 +150,6 @@ void explosion(struct bomb * bomb, struct map * map, enum cell_type CELL,int ind
 		}
 		if ( map_get_cell(map,bomb->x, bomb->y+(compteur))!= CELL_EXPLOSION)
 		{
-			printf("passage haut\n");
 			tab_cell[j+i+k]=cell_init(&tab_cell[j+i+k],bomb->x , bomb->y+compteur, map_get_cell(map,bomb->x , bomb->y+(compteur)));
 		}
 		map_set_cell_type(map,bomb->x , bomb->y+(compteur), CELL);
@@ -167,7 +165,6 @@ void explosion(struct bomb * bomb, struct map * map, enum cell_type CELL,int ind
 		}
 		if ( map_get_cell(map,bomb->x-(compteur), bomb->y)!= CELL_EXPLOSION)// Pour pas qu'il garde en memoire la CELL_EXPLOSION
 		{
-			printf("passage gauche\n");
 			tab_cell[j+i+k]=cell_init(&tab_cell[j+i+k],bomb->x-(compteur) , bomb->y, map_get_cell(map,bomb->x-(compteur) , bomb->y));
 		}
 		map_set_cell_type(map,bomb->x-(compteur) , bomb->y, CELL);
@@ -183,7 +180,6 @@ void explosion(struct bomb * bomb, struct map * map, enum cell_type CELL,int ind
 		}
 		if ( map_get_cell(map,bomb->x, bomb->y-(compteur))!= CELL_EXPLOSION)
 		{
-			printf("passage bas\n");
 			tab_cell[j+i+k]=cell_init(&tab_cell[j+i+k],bomb->x , bomb->y-compteur, map_get_cell(map,bomb->x , bomb->y-(compteur)));
 		}
 		map_set_cell_type(map,bomb->x , bomb->y-(compteur), CELL);
@@ -203,7 +199,6 @@ void explosion_suite(struct map * map, struct CellBeforeExplosion * tab_cell ,in
 			switch (tab_cell[j+i].Cell_type & 0xf0)
 			{
 				case CELL_BOX:
-				printf("passage de box %d\n",i );
 					switch (tab_cell[j+i].Cell_type & 0x0f)
 					{
 						case BONUS_BOMB_RANGE_DEC:

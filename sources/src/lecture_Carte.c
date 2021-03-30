@@ -24,7 +24,6 @@ unsigned char * write_map(char * name_map)
 	fp = fopen(name_map, "r");
 	if (fp==NULL)
 	{
-		printf("Erreur de lecture de map\n" );
 		return 1;
 	}
 	int compteur=0;
