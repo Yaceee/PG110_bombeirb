@@ -16,7 +16,8 @@ struct game {
 	short levels;        // nb maps of the game
 	short level;
 	struct player* player;
-	struct monster* monster;
+	struct monster* monster[100];
+	int nb_monster;
 };
 
 struct game*
@@ -28,13 +29,13 @@ game_new(void) {
 	game->maps[0] = map_get_static();
 	game->levels = 1;
 	game->level = 0;
+	game->nb_monster = 0;
 
 	game->player = player_init(3, 3);
 	// Set default location of the player
 	player_set_position(game->player, 1, 0);
 
-	game->monster = monster_init();
-	monster_set_position(game->monster, 1, 2);
+	monster_load(game->monster,game->maps[0],&game->nb_monster);
 
 	return game;
 }
@@ -96,8 +97,12 @@ void game_display(struct game* game) {
 	game_banner_display(game);
 	map_display(game_get_current_map(game));
 	bomb_display(game_get_current_map(game));
+
 	player_display(game->player, game_get_current_map(game));
-	monster_display(game->monster);
+	for(int i = 0;i<game->nb_monster;i++)
+	{
+		monster_display(game->monster[i], game_get_current_map(game));
+	}
 	window_refresh();
 }
 
