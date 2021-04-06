@@ -209,7 +209,7 @@ void player_dammage(struct player* player, struct map * map)
 	if (invulnerability()==0)//invulnerabilité du personnage pendant 1 secoonde
 	{
 		adjust_Ancien_temps();
-		if (explosion_dead(map,player->x,player->y)==0)
+		if (explosion_dead(map,player->x,player->y)==0) // si il se trouve sur un monstre ou sur une bombe
 		{
 			player_dec_life(player);
 		}
