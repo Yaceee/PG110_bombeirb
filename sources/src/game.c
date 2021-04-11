@@ -101,7 +101,16 @@ void game_display(struct game* game) {
 	player_display(game->player, game_get_current_map(game));
 	for(int i = 0;i<game->nb_monster;i++)
 	{
-		monster_display(game->monster[i], game_get_current_map(game));
+		monster_display(game->monster[i], game_get_current_map(game), game->player);
+		
+		if(monster_kill(game->monster[i],game_get_current_map(game)))
+		{
+			for(int j = i;j<game->nb_monster;j++){
+				game->monster[j] = game->monster[j+1];
+			}
+			game->nb_monster -= 1;
+		}
+		
 	}
 	window_refresh();
 }

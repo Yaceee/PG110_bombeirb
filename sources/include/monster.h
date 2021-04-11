@@ -7,6 +7,7 @@
 
 #include <map.h>
 #include <constant.h>
+#include <player.h>
 
 struct monster;
 
@@ -30,8 +31,10 @@ void monster_set_current_way(struct monster * monster, enum direction direction)
 int monster_move(struct monster* monster, struct map* map);
 
 void monster_random(struct monster* monster, struct map* map);
+int monster_kill(struct monster* monster, struct map * map);
+void monster_dammage(struct player* player, struct monster* monster);
 
 // Display the monster on the screen
-void monster_display(struct monster* monster, struct map* map);
+void monster_display(struct monster* monster, struct map* map, struct player* player);
 
 #endif /* monster_H_ */
