@@ -9,7 +9,7 @@
 #include <sprite.h>
 #include <window.h>
 #include <misc.h>
-#include <constant.h>
+#include "constant.h"
 #include <bonus.h>
 #include <bomb.h>
 
@@ -199,18 +199,20 @@ int invulnerability()
 	}
 	return 0;
 }
+
 void adjust_Ancien_temps()
 {
 	Ancien_temps = SDL_GetTicks();
 }
+
 void player_dammage(struct player* player, struct map * map)
 {
 	
-	if (invulnerability()==0)//invulnerabilité du personnage pendant 1 secoonde
+	if (invulnerability()==0)//invulnerabilité du personnage pendant 1 seconde
 	{
-		adjust_Ancien_temps();
-		if (explosion_dead(map,player->x,player->y)==0) // si il se trouve sur un monstre ou sur une bombe
+		if (explosion_dead(map,player->x,player->y)==0) // si il se trouve sur une bombe
 		{
+			adjust_Ancien_temps();
 			player_dec_life(player);
 		}
 	}

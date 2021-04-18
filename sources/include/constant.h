@@ -28,4 +28,6 @@ enum direction {
 	WEST   // 3
 };
 
+extern int Ancien_temps;
+
 #endif /* CONSTANT */

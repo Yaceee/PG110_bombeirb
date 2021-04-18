@@ -12,8 +12,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
-
 struct monster {
     int x, y;
 	enum direction direction;
@@ -215,10 +213,13 @@ int monster_kill(struct monster* monster, struct map * map)
 
 void monster_dammage(struct player* player, struct monster* monster)
 {
-	if ((player_get_x(player) == monster->x) && (player_get_y(player) == monster->y) && invulnerability()==0)
+	if ((player_get_x(player) == monster->x) && (player_get_y(player) == monster->y))
 	{
-		adjust_Ancien_temps();
-		player_dec_life(player);
+		if(invulnerability()==0)
+		{
+			adjust_Ancien_temps();
+			player_dec_life(player);
+		}
 	}
 }
 
