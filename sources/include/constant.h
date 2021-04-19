@@ -30,4 +30,8 @@ enum direction {
 
 extern int Ancien_temps;
 
+extern int ticks;
+
+extern int delay;
+
 #endif /* CONSTANT */

@@ -192,7 +192,7 @@ int player_move(struct player* player, struct map* map) {
 
 int invulnerability()
 {
-	int tempsActuel = SDL_GetTicks();
+	int tempsActuel = ticks;
 	if (tempsActuel-Ancien_temps<1000)
 	{
 		return 1;
@@ -202,7 +202,7 @@ int invulnerability()
 
 void adjust_Ancien_temps()
 {
-	Ancien_temps = SDL_GetTicks();
+	Ancien_temps = ticks;
 }
 
 void player_dammage(struct player* player, struct map * map)

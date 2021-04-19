@@ -60,12 +60,16 @@
 #define MONSTER_UP      "sprite/monster_up.png"
 #define MONSTER_DOWN    "sprite/monster_down.png"
 
+//Pause banner
+#define PAUSE_BANNER    "sprite/pause.png"
+
 // banner
 SDL_Surface* numbers[10];
 SDL_Surface* banner_life;
 SDL_Surface* banner_bomb;
 SDL_Surface* banner_range;
 SDL_Surface* banner_line;
+SDL_Surface* banner_pause;
 
 // map
 SDL_Surface* box;
@@ -110,6 +114,7 @@ static void banner_load() {
 	banner_bomb = image_load(BANNER_BOMB);
 	banner_range = image_load(BANNER_RANGE);
 	banner_line = image_load(BANNER_LINE);
+	banner_pause = image_load(PAUSE_BANNER);
 }
 
 static void banner_unload() {
@@ -123,6 +128,7 @@ static void banner_unload() {
 	SDL_FreeSurface(banner_bomb);
 	SDL_FreeSurface(banner_range);
 	SDL_FreeSurface(banner_life);
+	SDL_FreeSurface(banner_pause);
 }
 
 static void map_load() {
@@ -142,6 +148,15 @@ static void bomb_load()
 	bomb_3 = image_load(BOMB_TTL3);
 	bomb_4 = image_load(BOMB_TTL4);
 	bomb_5 = image_load(BOMB_TTL5);
+}
+
+static void bomb_unload()
+{
+	SDL_FreeSurface(bomb_1);
+	SDL_FreeSurface(bomb_2);
+	SDL_FreeSurface(bomb_3);
+	SDL_FreeSurface(bomb_4);
+	SDL_FreeSurface(bomb_5);
 }
 
 static void map_unload() {
@@ -209,13 +224,19 @@ void sprite_free() {
 	bonus_unload();
 	banner_unload();
 	player_unload();
-	//bomb_unload();
+	bomb_unload();
 	monster_unload();
 }
 
 SDL_Surface* sprite_get_number(short number) {
 	assert(number >= 0 && number < 9);
 	return numbers[number];
+}
+
+SDL_Surface* sprite_get_pause()
+{
+	assert(banner_pause);
+	return banner_pause;
 }
 
 SDL_Surface* sprite_get_player(enum direction direction) {

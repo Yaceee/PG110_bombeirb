@@ -10,6 +10,8 @@
 #include <map.h>
 #include <bomb.h>
 
+int p;
+
 // Abstract data type
 struct game;
 
@@ -27,6 +29,9 @@ struct map* game_get_current_map(struct game* game);
 
 // Display the game on the screen
 void game_display(struct game* game);
+
+//Return value of pause variable
+int game_get_pause();
 
 // update
 int game_update(struct game* game);

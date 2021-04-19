@@ -8,8 +8,11 @@
 #include <constant.h>
 #include <game.h>
 #include <window.h>
+#include <sprite.h>
 #include <misc.h>
 
+int ticks;
+int delay = 0;
 
 int main(int argc, char *argv[]) {
 
@@ -34,9 +37,20 @@ int main(int argc, char *argv[]) {
 	int done = 0;
 	while (!done) {
 		timer = SDL_GetTicks();
+		
 
 		done = game_update(game);
-		game_display(game);
+		if(!game_get_pause())
+		{
+			game_display(game);
+			ticks = timer - delay;
+		}
+
+		if(game_get_pause())
+		{
+			window_display_image(sprite_get_pause(), 80 , 200);
+			window_refresh();
+		}
 
 		execution_speed = SDL_GetTicks() - timer;
 		if (execution_speed < ideal_speed)
