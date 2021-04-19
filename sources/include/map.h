@@ -41,6 +41,11 @@ enum bomb_type {
 	BOMB_5 = 5	
 };
 
+enum door_type {
+
+	DOOR_OPEN = 1,
+	DOOR_CLOSE = 0
+};
 
 enum compose_type {
 	CELL_TREE     = CELL_SCENERY | SCENERY_TREE,
@@ -53,6 +58,8 @@ enum compose_type {
 	CELL_BOMB_4= CELL_BOMB | BOMB_4,
 	CELL_EXPLOSION= CELL_BOMB | BOMB_5,
 
+	CELL_DOOR_CLOSE = CELL_DOOR | DOOR_CLOSE,
+	CELL_DOOR_OPEN = CELL_DOOR | DOOR_OPEN,
 
     CELL_BOX_RANGEINC = CELL_BOX | BONUS_BOMB_RANGE_DEC,
     CELL_BOX_RANGEDEC = CELL_BOX | BONUS_BOMB_RANGE_INC,
@@ -87,7 +94,7 @@ enum compose_type map_get_cell(struct map* map, int x, int y);
 
 // Set the type of a cell
 void  map_set_cell_type(struct map* map, int x, int y, enum cell_type type);
-
+void  map_set_cell(struct map* map, int x, int y, enum compose_type type);
 // Test if (x,y) is within the map
 int map_is_inside(struct map* map, int x, int y);
 

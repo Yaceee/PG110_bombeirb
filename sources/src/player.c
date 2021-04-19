@@ -12,6 +12,7 @@
 #include <constant.h>
 #include <bonus.h>
 #include <bomb.h>
+#include <porte.h>
 
 int Ancien_temps=0;
 
@@ -21,6 +22,7 @@ struct player {
 	int bombs;
 	int bomb_range;
 	int life;
+	int key;
 };
 
 struct player* player_init(int bombs, int life) {
@@ -32,10 +34,10 @@ struct player* player_init(int bombs, int life) {
 	player->bomb_range = 1;
 	player->bombs = bombs;
 	player->life = life;
+	player->key = 1;
 
 	return player;
 }
-
 
 void player_set_position(struct player *player, int x, int y) {
 	assert(player);
@@ -118,6 +120,25 @@ void player_dec_life(struct player* player)
 	player->life -= 1;
 }
 
+int player_get_key(struct player * player)
+{
+	assert(player);
+	return player->key;
+}
+
+void player_inc_key(struct player * player)
+{
+	assert(player);
+	player->key +=1;
+}
+
+void player_dec_key(struct player * player)
+{
+	assert(player);
+	player->key -=1;
+}
+
+
 static int player_move_aux(struct player* player, struct map* map, int x, int y, int dir) { //ajout direction en entrée pour la gestion des boites
 
 	if (!map_is_inside(map, x, y))
@@ -185,7 +206,10 @@ int player_move(struct player* player, struct map* map) {
 	}
 
 	if (move) {
-		map_set_cell_type(map, x, y, CELL_EMPTY);
+		if (map_get_cell_type(map,x,y)!=CELL_DOOR)
+		{
+			map_set_cell_type(map, x, y, CELL_EMPTY);
+		}
 	}
 	return move;
 }
@@ -219,6 +243,7 @@ void player_dammage(struct player* player, struct map * map)
 void player_display(struct player* player, struct map * map) {
 	assert(player);
 	player_dammage(player,map);
+	player_on_doors(player,map);
 	window_display_image(sprite_get_player(player->direction),
 			player->x * SIZE_BLOC, player->y * SIZE_BLOC);
 }

@@ -97,6 +97,12 @@ void map_set_cell_type(struct map* map, int x, int y, enum cell_type type)
 	map->grid[CELL(x,y)] = type;
 }
 
+void map_set_cell(struct map* map, int x, int y, enum compose_type type)
+{
+	assert(map && map_is_inside(map, x, y));
+	map->grid[CELL(x,y)] = type;
+}
+
 void display_bonus(struct map* map, int x, int y, unsigned char type)
 {
 	// bonus is encoded with the 4 most significant bits
@@ -186,9 +192,15 @@ void map_display(struct map* map)
 	      window_display_image(sprite_get_key(), x, y);
 	      break;
 	    case CELL_DOOR:
-	      // pas de gestion du type de porte
-	      window_display_image(sprite_get_door_opened(), x, y);
-	      break;
+	      switch(type & 0x01){
+		      case 1:
+		      	window_display_image(sprite_get_door_opened(), x, y);
+		      	break;
+		      case 0:
+		      	window_display_image(sprite_get_door_closed(), x, y);
+		      	break;
+		  }
+		  break;
 	    }
 	  }
 	}
@@ -292,7 +304,7 @@ struct map* map_get_static(void)
 
 
 
-	int * map_test=write_map("./src/map1.txt");
+	int * map_test=write_map("./src/map_1.txt");
 	for (int i = 0; i < 144; i++)
 		map->grid[i] = map_test[i];
 
