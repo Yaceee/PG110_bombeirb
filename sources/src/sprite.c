@@ -61,14 +61,27 @@
 #define MONSTER_UP      "sprite/monster_up.png"
 #define MONSTER_DOWN    "sprite/monster_down.png"
 
+//Sprite Pause banner
+#define PAUSE_BANNER    "sprite/pause.png"
+
+//Sprite homepage
+#define HOMEPAGE        "sprite/homepage.png"
+
+//homepage
+SDL_Surface* homepage;
+
 // banner
 SDL_Surface* numbers[10];
 SDL_Surface* banner_life;
 SDL_Surface* banner_bomb;
 SDL_Surface* banner_range;
 SDL_Surface* banner_line;
+<<<<<<< HEAD
 SDL_Surface* banner_key;
 
+=======
+SDL_Surface* banner_pause;
+>>>>>>> 4b0e9100fb19cdc4a73c101e8c525571db5ca1df
 
 // map
 SDL_Surface* box;
@@ -95,6 +108,14 @@ SDL_Surface* player_img[4];
 // monster
 SDL_Surface* monster_img[4];
 
+static void homepage_load(){
+	homepage = image_load(HOMEPAGE);
+}
+
+static void homepage_unload(){
+	SDL_FreeSurface(homepage);
+}
+
 static void banner_load() {
 	// numbers imgs
 	numbers[0] = image_load(DIGIT_0);
@@ -114,6 +135,8 @@ static void banner_load() {
 	banner_range = image_load(BANNER_RANGE);
 	banner_line = image_load(BANNER_LINE);
 	banner_key = image_load(BANNER_KEY);
+	banner_pause = image_load(PAUSE_BANNER);
+
 }
 
 static void banner_unload() {
@@ -128,6 +151,7 @@ static void banner_unload() {
 	SDL_FreeSurface(banner_range);
 	SDL_FreeSurface(banner_life);
 	SDL_FreeSurface(banner_key);
+	SDL_FreeSurface(banner_pause);
 }
 
 static void map_load() {
@@ -147,6 +171,15 @@ static void bomb_load()
 	bomb_3 = image_load(BOMB_TTL3);
 	bomb_4 = image_load(BOMB_TTL4);
 	bomb_5 = image_load(BOMB_TTL5);
+}
+
+static void bomb_unload()
+{
+	SDL_FreeSurface(bomb_1);
+	SDL_FreeSurface(bomb_2);
+	SDL_FreeSurface(bomb_3);
+	SDL_FreeSurface(bomb_4);
+	SDL_FreeSurface(bomb_5);
 }
 
 static void map_unload() {
@@ -207,6 +240,7 @@ void sprite_load() {
 	player_load();
 	bomb_load();  
 	monster_load();
+	homepage_load();
 }
 
 void sprite_free() {
@@ -214,13 +248,25 @@ void sprite_free() {
 	bonus_unload();
 	banner_unload();
 	player_unload();
-	//bomb_unload();
+	bomb_unload();
 	monster_unload();
+	homepage_unload();
+}
+
+SDL_Surface* sprite_get_homepage() {
+	assert(homepage);
+	return homepage;
 }
 
 SDL_Surface* sprite_get_number(short number) {
 	assert(number >= 0 && number < 9);
 	return numbers[number];
+}
+
+SDL_Surface* sprite_get_pause()
+{
+	assert(banner_pause);
+	return banner_pause;
 }
 
 SDL_Surface* sprite_get_player(enum direction direction) {

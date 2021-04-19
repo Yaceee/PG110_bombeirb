@@ -4,12 +4,17 @@
  ******************************************************************************/
 #include <assert.h>
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include <game.h>
 #include <misc.h>
 #include <window.h>
 #include <sprite.h>
 #include <bomb.h>
+
+int p = 0;
 
 struct game {
 	struct map** maps;       // the game's map
@@ -107,11 +112,24 @@ void game_display(struct game* game) {
 	player_display(game->player, game_get_current_map(game));
 	for(int i = 0;i<game->nb_monster;i++)
 	{
-		monster_display(game->monster[i], game_get_current_map(game));
+		monster_display(game->monster[i], game_get_current_map(game), game->player);
+		
+		if(monster_kill(game->monster[i],game_get_current_map(game)))
+		{
+			for(int j = i;j<game->nb_monster;j++){
+				game->monster[j] = game->monster[j+1];
+			}
+			game->nb_monster -= 1;
+		}
+		
 	}
 	window_refresh();
 }
 
+int game_get_pause()
+{
+	return p;
+}
 
 static short input_keyboard(struct game* game) {
 	SDL_Event event;
@@ -125,26 +143,50 @@ static short input_keyboard(struct game* game) {
 			return 1;
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym) {
+			case SDLK_p:
+				if(!p)
+				{
+					p = 1;
+				}
+				else
+				{
+					p = 0;
+					delay = SDL_GetTicks() - ticks;
+				}
+				break;
 			case SDLK_ESCAPE:
-				return 1;
+				if(!p)
+				{
+					return 1;
+				}
 			case SDLK_UP:
-				player_set_current_way(player, NORTH);
-				player_move(player, map);
+				if(!p){
+					player_set_current_way(player, NORTH);
+					player_move(player, map);	
+				}
 				break;
 			case SDLK_DOWN:
-				player_set_current_way(player, SOUTH);
-				player_move(player, map);
+				if(!p){
+					player_set_current_way(player, SOUTH);
+					player_move(player, map);
+				}
 				break;
 			case SDLK_RIGHT:
-				player_set_current_way(player, EAST);
-				player_move(player, map);
+				if(!p){
+					player_set_current_way(player, EAST);
+					player_move(player, map);
+				}
 				break;
 			case SDLK_LEFT:
-				player_set_current_way(player, WEST);
-				player_move(player, map);
+				if(!p){
+					player_set_current_way(player, WEST);
+					player_move(player, map);
+				}
 				break;
 			case SDLK_SPACE:
-				put_bomb(player,map);
+				if(!p){
+					put_bomb(player,map);
+				}
 				break;
 			default:
 				break;

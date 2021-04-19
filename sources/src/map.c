@@ -304,6 +304,7 @@ struct map* map_get_static(void)
 
 
 
+
 	int * map_test=write_map("./src/map_1.txt");
 	for (int i = 0; i < 144; i++)
 		map->grid[i] = map_test[i];

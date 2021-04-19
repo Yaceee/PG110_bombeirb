@@ -2,15 +2,15 @@
 #include <assert.h>
 
 #include <monster.h>
+#include <player.h>
 #include <map.h>
+#include <bomb.h>
 #include <sprite.h>
 #include <window.h>
 #include <misc.h>
 #include <constant.h>
 #include <stdlib.h>
 #include <time.h>
-
-
 
 struct monster {
     int x, y;
@@ -48,6 +48,7 @@ void monster_load(struct monster* monster[], struct map* map, int *nb_monster)
 			{
 				monster[*nb_monster] = monster_init(1000);
 				monster_set_position(monster[*nb_monster], i, j);
+				map_set_cell_type(map, i, j, CELL_EMPTY);
 				*nb_monster += 1;
 			}
 		}
@@ -201,9 +202,31 @@ void monster_random(struct monster* monster, struct map* map)
 	
 }
 
-void monster_display(struct monster* monster, struct map* map) {
+int monster_kill(struct monster* monster, struct map * map)
+{
+		if (explosion_dead(map,monster->x,monster->y)==0)
+		{
+			return 1;
+		}
+	return 0;
+}
+
+void monster_dammage(struct player* player, struct monster* monster)
+{
+	if ((player_get_x(player) == monster->x) && (player_get_y(player) == monster->y))
+	{
+		if(invulnerability()==0)
+		{
+			adjust_Ancien_temps();
+			player_dec_life(player);
+		}
+	}
+}
+
+void monster_display(struct monster* monster, struct map* map, struct player* player) {
 	assert(monster);
 	monster_random(monster, map);
+	monster_dammage(player, monster);
 	window_display_image(sprite_get_monster(monster->direction),
 			monster->x * SIZE_BLOC, monster->y * SIZE_BLOC);
 }

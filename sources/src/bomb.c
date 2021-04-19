@@ -44,7 +44,7 @@ struct bomb bomb_init(struct bomb * bomb ,int area, struct player * player) {
 	bomb->area = area;
 	bomb->x = player_get_x(player);
 	bomb->y = player_get_y(player);
-	bomb->time = SDL_GetTicks();
+	bomb->time = ticks;
 	bomb->used = 1;
 	return *bomb;
 }
@@ -246,7 +246,7 @@ void bomb_display(struct map * map)
 
 		if (tab_bomb[i].used!=0)
 		{
-			int tempsActuel = SDL_GetTicks();
+			int tempsActuel = ticks;
 			int temps_vie = tempsActuel-tab_bomb[i].time;
 
 			if (temps_vie<1000)
