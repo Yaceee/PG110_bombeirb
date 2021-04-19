@@ -19,7 +19,7 @@ SDL_Surface* sprite_get_tree();
 SDL_Surface* sprite_get_box();
 SDL_Surface* sprite_get_key();
 SDL_Surface* sprite_get_stone();
-SDL_Surface* sprite_get_bomb();
+SDL_Surface* sprite_get_bomb(int time);
 SDL_Surface* sprite_get_door_opened();
 SDL_Surface* sprite_get_door_closed();
 
@@ -29,5 +29,7 @@ SDL_Surface* sprite_get_banner_life();
 SDL_Surface* sprite_get_banner_bomb();
 SDL_Surface* sprite_get_banner_line();
 SDL_Surface* sprite_get_banner_range();
+
+SDL_Surface* sprite_get_homepage();
 
 #endif /* SPRITE_H_ */

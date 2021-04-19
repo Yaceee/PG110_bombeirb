@@ -60,8 +60,14 @@
 #define MONSTER_UP      "sprite/monster_up.png"
 #define MONSTER_DOWN    "sprite/monster_down.png"
 
-//Pause banner
+//Sprite Pause banner
 #define PAUSE_BANNER    "sprite/pause.png"
+
+//Sprite homepage
+#define HOMEPAGE        "sprite/homepage.png"
+
+//homepage
+SDL_Surface* homepage;
 
 // banner
 SDL_Surface* numbers[10];
@@ -95,6 +101,14 @@ SDL_Surface* player_img[4];
 
 // monster
 SDL_Surface* monster_img[4];
+
+static void homepage_load(){
+	homepage = image_load(HOMEPAGE);
+}
+
+static void homepage_unload(){
+	SDL_FreeSurface(homepage);
+}
 
 static void banner_load() {
 	// numbers imgs
@@ -217,6 +231,7 @@ void sprite_load() {
 	player_load();
 	bomb_load();  ////////////////////////////remi
 	monster_load();
+	homepage_load();
 }
 
 void sprite_free() {
@@ -226,6 +241,12 @@ void sprite_free() {
 	player_unload();
 	bomb_unload();
 	monster_unload();
+	homepage_unload();
+}
+
+SDL_Surface* sprite_get_homepage() {
+	assert(homepage);
+	return homepage;
 }
 
 SDL_Surface* sprite_get_number(short number) {

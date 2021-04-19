@@ -10,9 +10,12 @@
 #include <window.h>
 #include <sprite.h>
 #include <misc.h>
+#include <homepage.h>
 
 int ticks;
 int delay = 0;
+int isHomepage = 0;
+int inGame = 0;
 
 int main(int argc, char *argv[]) {
 
@@ -20,8 +23,6 @@ int main(int argc, char *argv[]) {
 		error("Can't init SDL:  %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-
-	struct game* game = game_new();
 
 	window_create(SIZE_BLOC * STATIC_MAP_WIDTH,
 	SIZE_BLOC * STATIC_MAP_HEIGHT + BANNER_HEIGHT + LINE_HEIGHT);
@@ -36,28 +37,58 @@ int main(int argc, char *argv[]) {
 	// static time rate implementation
 	int done = 0;
 	while (!done) {
-		timer = SDL_GetTicks();
+		struct game* game = game_new();
+		while(!isHomepage)
+		{
+			timer = SDL_GetTicks();
+			isHomepage = homepage_update();
+			ticks = timer;
+			homepage_display();
+
+			execution_speed = SDL_GetTicks() - timer;
+			if (execution_speed < ideal_speed)
+				SDL_Delay(ideal_speed - execution_speed); // we are ahead of ideal time. let's wait.
+		}
+
+		if(choice == 0)
+		{
+			while(!inGame)
+			{
+				timer = SDL_GetTicks();
+				
+				inGame = game_update(game);
+				if(!game_get_pause())
+				{
+					game_display(game);
+					ticks = timer - delay;
+				}
+
+				if(game_get_pause())
+				{
+					window_display_image(sprite_get_pause(), 80 , 200);
+					window_refresh();
+				}
+
+				execution_speed = SDL_GetTicks() - timer;
+				if (execution_speed < ideal_speed)
+					SDL_Delay(ideal_speed - execution_speed); // we are ahead of ideal time. let's wait.
+			}
+			isHomepage = 0;	
+		}
 		
-
-		done = game_update(game);
-		if(!game_get_pause())
+		if(choice == 1)
 		{
-			game_display(game);
-			ticks = timer - delay;
+			isHomepage = 0;
 		}
+		
+		game_free(game);
 
-		if(game_get_pause())
+		if(choice == 2)
 		{
-			window_display_image(sprite_get_pause(), 80 , 200);
-			window_refresh();
+			done = 1;
 		}
-
-		execution_speed = SDL_GetTicks() - timer;
-		if (execution_speed < ideal_speed)
-			SDL_Delay(ideal_speed - execution_speed); // we are ahead of ideal time. let's wait.
+		
 	}
-
-	game_free(game);
 
 	SDL_Quit();
 
