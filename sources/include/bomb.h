@@ -20,6 +20,7 @@ void   bomb_free(struct bomb *bomb);
 
 struct Cell_before_explosion cell_init(int x, int y ,enum compose_type cellule);
 struct Cell_before_explosion * cell_init_for_tab();
+void declanchement_bomb_reaction(struct map * map,int x ,int y);
 void initialisation_tab_cell();
 void explosion_suite(struct map * map, struct Cell_before_explosion tab_cell); //modifie la map apres l'explosion
 
