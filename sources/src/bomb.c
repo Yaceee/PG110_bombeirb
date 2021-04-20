@@ -19,6 +19,7 @@ struct bomb {
 	int x, y;
 	int area;
 	int time;
+	int reaction;
 	int used; ///// toutes les structures sont init et on regarde juste si les bombes sont utilisées 
 };
 
@@ -45,6 +46,7 @@ struct bomb bomb_init(struct bomb * bomb ,int area, struct player * player) {
 	bomb->x = player_get_x(player);
 	bomb->y = player_get_y(player);
 	bomb->time = ticks;
+	bomb->reaction = 0;
 	bomb->used = 1;
 	return *bomb;
 }
@@ -74,6 +76,7 @@ struct bomb* bomb_init_for_tab() {
 	bomb->x = 0;
 	bomb->y = 0;
 	bomb->time = 0;
+	bomb->reaction =0;
 	bomb->used = 0;
 	return bomb;
 }
@@ -109,21 +112,38 @@ void initialisation_tab_cell()
 	}
 }
 
+void declanchement_bomb_reaction(struct map * map,int x ,int y)
+{
+	for(int i=0;i<SIZE;i++)
+	{
+
+		if (tab_bomb[i].x==x && tab_bomb[i].y==y && tab_bomb[i].reaction==0)
+		{
+			tab_bomb[i].reaction=1;
+			tab_bomb[i].time=ticks-4000;
+		}
+	}
+	
+}
+
 int condition_explosion(struct map * map,int x ,int y){
 	if(map_is_inside(map,x,y)){// si dans le terrain
-		if(map_get_cell_type(map,x,y)==0 || map_get_cell_type(map,x,y)==32  || (map_get_cell_type(map,x,y) & 0xf0 )== CELL_BOMB){ // si c'est cassable
+		if(map_get_cell_type(map,x,y)==0 || map_get_cell_type(map,x,y)==32  ){ // si c'est cassable
 			return 1;
 		}
-		if (map_get_cell_type(map,x,y)==0x20)
+		if ((map_get_cell_type(map,x,y) & 0xf0 )== CELL_BOMB)
 		{
-			return 2;
+			declanchement_bomb_reaction(map,x,y);
+			return 1;
 		}
 	}
 	return 0;
 }
 
+
 void explosion(struct bomb * bomb, struct map * map, enum cell_type CELL,int indice_tab)
 {
+	bomb->reaction=1;
 	int j=indice_tab*SIZEAREA;
 	int k=0;
 	int compteur=0;
@@ -300,10 +320,11 @@ int explosion_dead(struct map* map, int x,int y)
 void put_bomb(struct player* player,struct map* map)
 {
 
-	if (player_get_nb_bomb(player)==0)
+	if (player_get_nb_bomb(player)==0 ||map_get_cell_type(map,player_get_x(player),player_get_y(player))==CELL_DOOR)
 	{
 		return ;
 	}
+	
 	else
 	{
 		//acces a une nouvelle case du tableau
