@@ -147,6 +147,10 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 
 	switch (map_get_cell_type(map, x, y)) {
 	case CELL_SCENERY:
+		if(map_get_cell(map,x,y) == CELL_PRINCESS)
+		{
+			return 1;
+		}
 		return 0; // pas de déplacement possible si décor
 		break;
 
@@ -156,7 +160,7 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 
 	case CELL_BONUS:
 		bonus_effect(player, map_get_cell(map, x, y));
-		map_set_cell_type(map, x, y, CELL_EMPTY);
+		map_set_cell(map, x, y, CELL_EMPTY);
 		return 1;
 		break;
 
@@ -165,10 +169,16 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 
 	case CELL_KEY:
 		player_inc_key(player);
-		map_set_cell_type(map, x, y, CELL_EMPTY);
+		map_set_cell(map, x, y, CELL_EMPTY);
 		return 1;
 		break;
-
+	case CELL_DOOR:
+		if(!(map_get_cell(map,x,y) & 0x01) && (player_get_key(player) == 0))
+		{
+			return 0;
+		}
+		return 1;
+		break;
 	default:
 		break;
 	}

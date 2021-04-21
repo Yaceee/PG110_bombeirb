@@ -235,6 +235,9 @@ void explosion_suite(struct map * map, struct CellBeforeExplosion * tab_cell ,in
 						case BONUS_LIFE:
 							map_set_cell_type(map,tab_cell[j+i].x,tab_cell[j+i].y,CELL_LIFE);
 							break;
+						case BONUS_MONSTER:
+							map_set_cell_type(map,tab_cell[j+i].x,tab_cell[j+i].y,CELL_MONSTER);
+							break;
 						default:
 							map_set_cell_type(map,tab_cell[j+i].x,tab_cell[j+i].y,CELL_EMPTY);
 					}

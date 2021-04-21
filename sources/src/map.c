@@ -143,6 +143,11 @@ void display_scenery(struct map* map, int x, int  y, unsigned char type)
 	case SCENERY_TREE:
 		window_display_image(sprite_get_tree(), x, y);
 		break;
+	
+
+	case SCENERY_PRINCESS:
+		window_display_image(sprite_get_princess(),x,y);
+		break;
 	}
 }
 void different_bomb_display(struct map* map, int x, int  y, unsigned char type)

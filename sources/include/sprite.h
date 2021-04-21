@@ -25,6 +25,8 @@ SDL_Surface* sprite_get_door_closed();
 
 SDL_Surface* sprite_get_number(short number);
 SDL_Surface* sprite_get_pause();
+SDL_Surface* sprite_get_win();
+SDL_Surface* sprite_get_princess();
 SDL_Surface* sprite_get_banner_life();
 SDL_Surface* sprite_get_banner_bomb();
 SDL_Surface* sprite_get_banner_line();

@@ -18,6 +18,7 @@
 // Scenery elements
 #define MAP_STONE		"sprite/stone.png"
 #define MAP_TREE        "sprite/tree.png"
+#define MAP_PRINCESS    "sprite/bomberwoman.png"
 
 // Sprites of Banner
 #define BANNER_LINE		"sprite/banner_line.png"
@@ -64,6 +65,7 @@
 
 //Sprite Pause banner
 #define PAUSE_BANNER    "sprite/pause.png"
+#define WIN_BANNER      "sprite/win.png"
 
 //Sprite homepage
 #define HOMEPAGE        "sprite/homepage.png"
@@ -81,8 +83,10 @@ SDL_Surface* banner_line;
 SDL_Surface* banner_key;
 
 SDL_Surface* banner_pause;
+SDL_Surface* banner_win;
 
 // map
+SDL_Surface* princess;
 SDL_Surface* box;
 SDL_Surface* goal;
 SDL_Surface* key;
@@ -135,6 +139,7 @@ static void banner_load() {
 	banner_line = image_load(BANNER_LINE);
 	banner_key = image_load(BANNER_KEY);
 	banner_pause = image_load(PAUSE_BANNER);
+	banner_win = image_load(WIN_BANNER);
 
 }
 
@@ -151,6 +156,7 @@ static void banner_unload() {
 	SDL_FreeSurface(banner_life);
 	SDL_FreeSurface(banner_key);
 	SDL_FreeSurface(banner_pause);
+	SDL_FreeSurface(banner_win);
 }
 
 static void sprite_map_load() {
@@ -161,6 +167,7 @@ static void sprite_map_load() {
 	stone = image_load(MAP_STONE);
 	door_opened = image_load(MAP_DOOR_OPENED);
 	door_closed = image_load(MAP_DOOR_CLOSED);
+	princess = image_load(MAP_PRINCESS);
 }
 
 static void bomb_load()
@@ -189,6 +196,7 @@ static void map_unload() {
 	SDL_FreeSurface(stone);
 	SDL_FreeSurface(door_opened);
 	SDL_FreeSurface(door_closed);
+	SDL_FreeSurface(princess);
 }
 
 static void bonus_load() {
@@ -266,6 +274,18 @@ SDL_Surface* sprite_get_pause()
 {
 	assert(banner_pause);
 	return banner_pause;
+}
+
+SDL_Surface* sprite_get_win()
+{
+	assert(banner_win);
+	return banner_win;
+}
+
+SDL_Surface* sprite_get_princess()
+{
+	assert(princess);
+	return princess;
 }
 
 SDL_Surface* sprite_get_player(enum direction direction) {

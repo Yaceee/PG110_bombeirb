@@ -11,7 +11,7 @@ void player_on_doors(struct player* player, struct map * map, struct game* game)
 		enum compose_type type=map_get_cell(map,player_get_x(player),player_get_y(player)) & 0x01;
 		if((type==0x00) & (player_get_key>0)) 
 		{
-			map_set_cell(map,player_get_x(player),player_get_y(player),CELL_DOOR_OPEN);
+			map_set_cell(map,player_get_x(player),player_get_y(player),map_get_cell(map,player_get_x(player),player_get_y(player)) | 0x01);
 			player_dec_key(player);
 		}
 		
@@ -30,28 +30,20 @@ void player_on_doors(struct player* player, struct map * map, struct game* game)
 					game_change_level(game, 2);
 					break;	
 				case 0x06:
-					game_change_level(game, 2);
+					game_change_level(game, 3);
 					break;
 				case 0x08:
-					game_change_level(game, 2);
+					game_change_level(game, 4);
 					break;	
 				case 0x0a:
-					game_change_level(game, 2);
+					game_change_level(game, 5);
 					break;
 				case 0x0c:
-					game_change_level(game, 2);
+					game_change_level(game, 6);
 					break;	
 				case 0x0e:
-					game_change_level(game, 2);
+					game_change_level(game, 7);
 					break;
-			}
-			for (int i = 0; i < 12;i++)
-			{
-				//printf("passage bpucle\n");
-				for (int j = 0; j< 12; j++)
-				{
-					map_set_cell_type(map,i,j, map_test[i+j*map_get_width(map)]);
-				}
 			}
 			
 		}

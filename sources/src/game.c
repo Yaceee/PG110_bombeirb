@@ -45,7 +45,7 @@ struct game* game_new(int nb_levels, char* map_src, int x, int y, int start_map)
 	// Set default location of the player
 	player_set_position(game->player, x, y);
 
-	monster_load(game->monster,game->maps[game->level],&game->nb_monster);
+	monster_load(game->monster,game->maps[game->level],&game->nb_monster, game->level);
 
 	return game;
 }
@@ -61,9 +61,10 @@ void game_free(struct game* game) {
 void game_change_level(struct game* game, int n_level)
 {
 	assert(game);
+	monster_save(game->monster,game_get_current_map(game), game->nb_monster);
 	game->level = n_level;
 	game->nb_monster = 0;
-	monster_load(game->monster,game_get_current_map(game),&game->nb_monster);
+	monster_load(game->monster,game_get_current_map(game),&game->nb_monster, game->level);
 }
 
 struct map* game_get_current_map(struct game* game) {
@@ -123,8 +124,10 @@ void game_display(struct game* game) {
 	bomb_display(game_get_current_map(game));
 
 	player_display(game->player, game_get_current_map(game), game);
+	monster_load(game->monster,game->maps[game->level],&game->nb_monster, game->level);
 	for(int i = 0;i<game->nb_monster;i++)
 	{
+		
 		monster_display(game->monster[i], game_get_current_map(game), game->player);
 		
 		if(monster_kill(game->monster[i],game_get_current_map(game)))
@@ -214,6 +217,12 @@ static short input_keyboard(struct game* game) {
 int game_update(struct game* game) {
 	if (input_keyboard(game) || player_get_nb_life(game->player) <1)
 		return 1; // exit game
-
+	if (map_get_cell(game_get_current_map(game), player_get_x(game->player), player_get_y(game->player)) == CELL_PRINCESS)
+	{
+		window_display_image(sprite_get_win(), 80 , 200);
+		window_refresh();
+		sleep(1);
+		return 1;
+	}
 	return 0;
 }

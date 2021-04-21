@@ -14,7 +14,8 @@ struct monster;
 struct monster* monster_init(int s);
 void monster_free(struct monster* monster[], struct map* map, int *nb_monster);
 
-void monster_load(struct monster* monster[], struct map* map, int* nb_monster);
+void monster_load(struct monster* monster[], struct map* map, int *nb_monster, int level);
+void monster_save(struct monster* monster[], struct map* map, int nb_monster);
 
 // Set the position of the monster
 void monster_set_position(struct monster *monster, int x, int y);

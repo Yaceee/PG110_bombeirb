@@ -40,21 +40,28 @@ void monster_free(struct monster* monster[], struct map* map, int *nb_monster) {
 	*nb_monster = 0;
 }
 
-void monster_load(struct monster* monster[], struct map* map, int *nb_monster)
+void monster_load(struct monster* monster[], struct map* map, int *nb_monster, int level)
 {
-	*nb_monster = 0;
 	for (int i = 0; i<STATIC_MAP_WIDTH;i++)
 	{
 		for (int j = 0;j<STATIC_MAP_HEIGHT;j++)
 		{
 			if(map_get_cell(map, i, j) == CELL_MONSTER)
 			{
-				monster[*nb_monster] = monster_init(1000);
+				monster[*nb_monster] = monster_init(1000-(level*75));
 				monster_set_position(monster[*nb_monster], i, j);
 				map_set_cell_type(map, i, j, CELL_EMPTY);
 				*nb_monster += 1;
 			}
 		}
+	}
+}
+
+void monster_save(struct monster* monster[], struct map* map, int nb_monster)
+{
+	for(int i = 0;i<nb_monster;i++)
+	{
+		map_set_cell(map,monster_get_x(monster[i]),monster_get_y(monster[i]), CELL_MONSTER);
 	}
 }
 
@@ -129,7 +136,7 @@ static int monster_near_door(struct monster* monster, struct map* map, int x, in
 		return 0;
 	}
 
-	if (map_get_cell_type(map, x, y) == CELL_DOOR)
+	if ((map_get_cell(map, x, y) & 0xf0) == CELL_DOOR)
 	{
 		return 1;
 	}
@@ -180,22 +187,22 @@ int monster_move(struct monster* monster, struct map* map) {
 int monster_possible_dir(struct monster* monster, struct map* map, enum direction dir[])
 {
 	int i = 0;
-	if (monster_move_aux(monster, map, monster->x, monster->y - 1) && !monster_near_door(monster, map, monster->x, monster->y-2))
+	if (monster_move_aux(monster, map, monster->x, monster->y - 1) && !monster_near_door(monster, map, monster->x, monster->y-2) && !monster_near_door(monster, map, monster->x, monster->y-1))
 	{
 		dir[i] = NORTH;
 		i++;
 	}
-	if (monster_move_aux(monster, map, monster->x + 1, monster->y) && !monster_near_door(monster, map, monster->x+2, monster->y))
+	if (monster_move_aux(monster, map, monster->x + 1, monster->y) && !monster_near_door(monster, map, monster->x+2, monster->y) && !monster_near_door(monster, map, monster->x+1, monster->y))
 	{
 		dir[i] = EAST;
 		i++;
 	}
-	if (monster_move_aux(monster, map, monster->x, monster->y + 1) && !monster_near_door(monster, map, monster->x, monster->y+2))
+	if (monster_move_aux(monster, map, monster->x, monster->y + 1) && !monster_near_door(monster, map, monster->x, monster->y+2) && !monster_near_door(monster, map, monster->x, monster->y+1))
 	{
 		dir[i] = SOUTH;
 		i++;
 	}
-	if (monster_move_aux(monster, map, monster->x - 1, monster->y) && !monster_near_door(monster, map, monster->x-2, monster->y))
+	if (monster_move_aux(monster, map, monster->x - 1, monster->y) && !monster_near_door(monster, map, monster->x-2, monster->y) && !monster_near_door(monster, map, monster->x-1, monster->y))
 	{
 		dir[i] = WEST;
 		i++;
@@ -206,7 +213,7 @@ int monster_possible_dir(struct monster* monster, struct map* map, enum directio
 void monster_random(struct monster* monster, struct map* map)
 {
 	srand(time(NULL));
-	if (monster->compteur >= DEFAULT_GAME_FPS*(monster->speed/1000))
+	if (monster->compteur >= DEFAULT_GAME_FPS*monster->speed/1000)
 	{
 		enum direction dir[4] = {0,0,0,0};
 		int n = monster_possible_dir(monster, map, dir);
