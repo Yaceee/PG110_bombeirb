@@ -5,7 +5,7 @@
 #ifndef MAP_H_
 #define MAP_H_
 #include <lecture.h>
-#include <monster.h>
+#include <game.h>
 
 enum cell_type {
 	CELL_EMPTY=0x00,   		//  0000 0000

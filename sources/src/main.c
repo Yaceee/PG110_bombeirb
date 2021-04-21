@@ -11,6 +11,7 @@
 #include <sprite.h>
 #include <misc.h>
 #include <homepage.h>
+#include <player.h>
 
 int ticks;
 int delay = 0;

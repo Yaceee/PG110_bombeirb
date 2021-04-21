@@ -12,6 +12,7 @@
 #include <misc.h>
 #include <window.h>
 #include <sprite.h>
+#include <map.h>
 #include <bomb.h>
 
 int p = 0;
@@ -44,7 +45,7 @@ struct game* game_new(int nb_levels, char* map_src, int x, int y, int start_map)
 	// Set default location of the player
 	player_set_position(game->player, x, y);
 
-	monster_load(game->monster,game->maps[1],&game->nb_monster);
+	monster_load(game->monster,game->maps[game->level],&game->nb_monster);
 
 	return game;
 }
@@ -61,6 +62,8 @@ void game_change_level(struct game* game, int n_level)
 {
 	assert(game);
 	game->level = n_level;
+	game->nb_monster = 0;
+	monster_load(game->monster,game_get_current_map(game),&game->nb_monster);
 }
 
 struct map* game_get_current_map(struct game* game) {
@@ -83,7 +86,7 @@ void game_banner_display(struct game* game) {
 	for (int i = 0; i < map_get_width(map); i++)
 		window_display_image(sprite_get_banner_line(), i * SIZE_BLOC, y);
 
-	int white_bloc = ((map_get_width(map) * SIZE_BLOC) - 6 * SIZE_BLOC) / 4;
+	int white_bloc = ((map_get_width(map) * SIZE_BLOC) - 7 * SIZE_BLOC) / 4;
 	int x = 0;//white_bloc;
 	y = (map_get_height(map) * SIZE_BLOC) + LINE_HEIGHT;
 	window_display_image(sprite_get_banner_life(), x, y);
@@ -119,7 +122,7 @@ void game_display(struct game* game) {
 	map_display(game_get_current_map(game));
 	bomb_display(game_get_current_map(game));
 
-	player_display(game->player, game_get_current_map(game));
+	player_display(game->player, game_get_current_map(game), game);
 	for(int i = 0;i<game->nb_monster;i++)
 	{
 		monster_display(game->monster[i], game_get_current_map(game), game->player);

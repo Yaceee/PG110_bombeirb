@@ -1,10 +1,8 @@
 #ifndef BOMB_H_
 #define BOMB_H_
 
-#include <map.h>
 #include <constant.h>
 #include <player.h>
-#include <game.h>
 #include <game.h>
 
 

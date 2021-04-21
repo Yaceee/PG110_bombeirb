@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <map.h>
 #include <constant.h>
 #include <misc.h>
 #include <sprite.h>

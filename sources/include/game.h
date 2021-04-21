@@ -8,7 +8,6 @@
 #include <player.h>
 #include <monster.h>
 #include <map.h>
-#include <bomb.h>
 
 int p;
 
@@ -20,6 +19,8 @@ struct game* game_new(int nb_levels, char* map_src, int x, int y, int start_map)
 
 // Free a game
 void game_free(struct game* game);
+
+void game_change_level(struct game* game, int n_level);
 
 // Return the player of the current game
 struct player* game_get_player(struct game* game);

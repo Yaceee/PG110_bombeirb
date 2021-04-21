@@ -5,6 +5,7 @@
 #include <SDL/SDL_image.h>
 #include <assert.h>
 
+#include <constant.h>
 #include <sprite.h>
 #include <misc.h>
 
@@ -152,7 +153,7 @@ static void banner_unload() {
 	SDL_FreeSurface(banner_pause);
 }
 
-static void map_load() {
+static void sprite_map_load() {
 	// Sprite loading
 	tree = image_load(MAP_TREE);
 	box = image_load(MAP_CASE);
@@ -205,7 +206,7 @@ static void bonus_unload() {
 			SDL_FreeSurface(bonus[i]);
 }
 
-static void monster_load()
+static void sprite_monster_load()
 {
 	monster_img[WEST] = image_load(MONSTER_LEFT);
 	monster_img[EAST] = image_load(MONSTER_RIGHT);
@@ -232,12 +233,12 @@ static void player_unload() {
 }
 
 void sprite_load() {
-	map_load();
+	sprite_map_load();
 	bonus_load();
 	banner_load();
 	player_load();
 	bomb_load();  
-	monster_load();
+	sprite_monster_load();
 	homepage_load();
 }
 
@@ -320,8 +321,8 @@ SDL_Surface* sprite_get_box() {
 }
 
 SDL_Surface* sprite_get_key() {
-	assert(key);
-	return key;
+	assert(banner_key);
+	return banner_key;
 }
 
 SDL_Surface* sprite_get_stone() {

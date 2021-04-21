@@ -11,9 +11,9 @@
 #include <misc.h>
 #include "constant.h"
 #include <bonus.h>
-#include <bomb.h>
 #include <porte.h>
 #include <monster.h>
+#include <game.h>
 
 int Ancien_temps=0;
 
@@ -35,7 +35,7 @@ struct player* player_init(int bombs, int life) {
 	player->bomb_range = 1;
 	player->bombs = bombs;
 	player->life = life;
-	player->key = 1;
+	player->key = 0;
 
 	return player;
 }
@@ -163,6 +163,12 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 	case CELL_MONSTER:
 		break;
 
+	case CELL_KEY:
+		player_inc_key(player);
+		map_set_cell_type(map, x, y, CELL_EMPTY);
+		return 1;
+		break;
+
 	default:
 		break;
 	}
@@ -243,10 +249,10 @@ void player_dammage(struct player* player, struct map * map)
 	}
 }
 
-void player_display(struct player* player, struct map * map) {
+void player_display(struct player* player, struct map * map, struct game* game) {
 	assert(player);
 	player_dammage(player,map);
-	player_on_doors(player,map);
+	player_on_doors(player,map, game);
 	window_display_image(sprite_get_player(player->direction),
 			player->x * SIZE_BLOC, player->y * SIZE_BLOC);
 }

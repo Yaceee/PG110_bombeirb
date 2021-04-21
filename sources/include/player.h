@@ -5,9 +5,9 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include <map.h>
 #include <constant.h>
 #include <monster.h>
+#include <game.h>
 
 struct player;
 
@@ -47,6 +47,6 @@ void adjust_Ancien_temps();
 void player_dammage(struct player* player, struct map * map);
 
 // Display the player on the screen
-void player_display(struct player* player,struct map * map);
+void player_display(struct player* player, struct map * map, struct game* game);
 
 #endif /* PLAYER_H_ */

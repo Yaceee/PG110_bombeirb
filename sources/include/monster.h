@@ -5,7 +5,6 @@
 #ifndef MONSTER_H_
 #define MONSTER_H_
 
-#include <map.h>
 #include <constant.h>
 #include <player.h>
 

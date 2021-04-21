@@ -1,7 +1,6 @@
 #include <SDL/SDL_image.h>
 #include <assert.h>
 
-#include <map.h>
 #include <player.h>
 #include <sprite.h>
 #include <window.h>

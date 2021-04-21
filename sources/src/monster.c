@@ -3,7 +3,6 @@
 
 #include <monster.h>
 #include <player.h>
-#include <map.h>
 #include <bomb.h>
 #include <sprite.h>
 #include <window.h>
