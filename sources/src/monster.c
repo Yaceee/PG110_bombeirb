@@ -136,14 +136,20 @@ static int monster_near_door(struct monster* monster, struct map* map, int x, in
 		return 0;
 	}
 
-	if ((map_get_cell(map, x, y) & 0xf0) == CELL_DOOR)
+	for(int i = x-1;i<x+2;i++)
 	{
-		return 1;
+		for(int j = y-1;j<y+2;j++)
+		{
+			if(map_is_inside(map,i,j))
+			{
+				if((map_get_cell(map,i,j) & 0xf0) == CELL_DOOR)
+				{
+					return 1;
+				}
+			}
+		}
 	}
-	else
-	{
-		return 0;
-	}
+	return 0;
 }
 
 int monster_move(struct monster* monster, struct map* map) {
@@ -187,22 +193,22 @@ int monster_move(struct monster* monster, struct map* map) {
 int monster_possible_dir(struct monster* monster, struct map* map, enum direction dir[])
 {
 	int i = 0;
-	if (monster_move_aux(monster, map, monster->x, monster->y - 1) && !monster_near_door(monster, map, monster->x, monster->y-2) && !monster_near_door(monster, map, monster->x, monster->y-1))
+	if (monster_move_aux(monster, map, monster->x, monster->y - 1) && !monster_near_door(monster, map, monster->x, monster->y-1))
 	{
 		dir[i] = NORTH;
 		i++;
 	}
-	if (monster_move_aux(monster, map, monster->x + 1, monster->y) && !monster_near_door(monster, map, monster->x+2, monster->y) && !monster_near_door(monster, map, monster->x+1, monster->y))
+	if (monster_move_aux(monster, map, monster->x + 1, monster->y) && !monster_near_door(monster, map, monster->x+1, monster->y))
 	{
 		dir[i] = EAST;
 		i++;
 	}
-	if (monster_move_aux(monster, map, monster->x, monster->y + 1) && !monster_near_door(monster, map, monster->x, monster->y+2) && !monster_near_door(monster, map, monster->x, monster->y+1))
+	if (monster_move_aux(monster, map, monster->x, monster->y + 1) && !monster_near_door(monster, map, monster->x, monster->y+1))
 	{
 		dir[i] = SOUTH;
 		i++;
 	}
-	if (monster_move_aux(monster, map, monster->x - 1, monster->y) && !monster_near_door(monster, map, monster->x-2, monster->y) && !monster_near_door(monster, map, monster->x-1, monster->y))
+	if (monster_move_aux(monster, map, monster->x - 1, monster->y) && !monster_near_door(monster, map, monster->x-1, monster->y))
 	{
 		dir[i] = WEST;
 		i++;
