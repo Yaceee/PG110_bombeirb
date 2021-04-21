@@ -19,6 +19,7 @@ void monster_load(struct monster* monster[], struct map* map, int* nb_monster);
 
 // Set the position of the monster
 void monster_set_position(struct monster *monster, int x, int y);
+int monster_on_pos(struct monster* monster[], int nb_monster, int x, int y);
 
 // Returns the current position of the monster
 int monster_get_x(struct monster* monster);

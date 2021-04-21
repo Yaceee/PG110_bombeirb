@@ -13,6 +13,7 @@
 #include <misc.h>
 #include <sprite.h>
 #include <window.h>
+#include <monster.h>
 #define SIZE 10
 
 struct map {
@@ -211,14 +212,14 @@ void map_display(struct map* map)
 	}
 }
 
-int box_collsion(struct map* map, int x, int y, int dir) //prend en entrée la map, coordonnées de la boite et directin de déplacement
+int box_collision(struct map* map, int x, int y, int dir, struct monster* monster[], int nb_monster) //prend en entrée la map, coordonnées de la boite et direction de déplacement
 {
 	switch (dir) //conditionnement sur la direction
 	{
 	case NORTH:
 		if(map_is_inside(map, x, y-1)) //test pour savoir si la position d'arrivée est dans la map
 		{
-			if(map_get_cell_type(map, x, y-1) == CELL_EMPTY) //test si la position d'arrivée est vide
+			if(map_get_cell_type(map, x, y-1) == CELL_EMPTY && monster_on_pos(monster, nb_monster, x, y-1)) //test si la position d'arrivée est vide
 			{
 				map_set_cell_type(map, x, y-1, CELL_BOX); //échange case d'arrivée et case de départ
 				map_set_cell_type(map, x, y, CELL_EMPTY);
@@ -234,7 +235,7 @@ int box_collsion(struct map* map, int x, int y, int dir) //prend en entrée la m
 	case SOUTH:
 		if(map_is_inside(map, x, y+1))
 		{
-			if(map_get_cell_type(map, x, y+1) == CELL_EMPTY)
+			if(map_get_cell_type(map, x, y+1) == CELL_EMPTY && monster_on_pos(monster, nb_monster, x, y+1))
 			{
 				map_set_cell_type(map, x, y+1, CELL_BOX);
 				map_set_cell_type(map, x, y, CELL_EMPTY);
@@ -250,7 +251,7 @@ int box_collsion(struct map* map, int x, int y, int dir) //prend en entrée la m
 	case EAST:
 		if(map_is_inside(map, x+1,y))
 		{
-			if(map_get_cell_type(map, x+1, y) == CELL_EMPTY)
+			if(map_get_cell_type(map, x+1, y) == CELL_EMPTY && monster_on_pos(monster, nb_monster, x+1, y))
 			{
 				map_set_cell_type(map, x+1, y, CELL_BOX);
 				map_set_cell_type(map, x, y, CELL_EMPTY);
@@ -266,7 +267,7 @@ int box_collsion(struct map* map, int x, int y, int dir) //prend en entrée la m
 	case WEST:
 		if(map_is_inside(map, x-1, y))
 		{
-			if(map_get_cell_type(map, x-1, y) == CELL_EMPTY)
+			if(map_get_cell_type(map, x-1, y) == CELL_EMPTY && monster_on_pos(monster, nb_monster, x-1, y))
 			{
 				map_set_cell_type(map, x-1, y, CELL_BOX);
 				map_set_cell_type(map, x, y, CELL_EMPTY);

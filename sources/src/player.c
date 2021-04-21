@@ -13,6 +13,7 @@
 #include <bonus.h>
 #include <bomb.h>
 #include <porte.h>
+#include <monster.h>
 
 int Ancien_temps=0;
 
@@ -139,7 +140,7 @@ void player_dec_key(struct player * player)
 }
 
 
-static int player_move_aux(struct player* player, struct map* map, int x, int y, int dir) { //ajout direction en entrée pour la gestion des boites
+static int player_move_aux(struct player* player, struct map* map, int x, int y, int dir, struct monster* monster[], int nb_monster) { //ajout direction en entrée pour la gestion des boites
 
 	if (!map_is_inside(map, x, y))
 		return 0;
@@ -150,7 +151,7 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 		break;
 
 	case CELL_BOX:
-		return box_collsion(map, x, y, dir); //retourne résultat fontion collsion des boites
+		return box_collision(map, x, y, dir, monster, nb_monster); //retourne résultat fontion collsion des boites
 		break;
 
 	case CELL_BONUS:
@@ -170,35 +171,35 @@ static int player_move_aux(struct player* player, struct map* map, int x, int y,
 	return 1;
 }
 
-int player_move(struct player* player, struct map* map) {
+int player_move(struct player* player, struct map* map, struct monster* monster[], int nb_monster) {
 	int x = player->x;
 	int y = player->y;
 	int move = 0;
 
 	switch (player->direction) {
 	case NORTH:
-		if (player_move_aux(player, map, x, y - 1, NORTH)) {
+		if (player_move_aux(player, map, x, y - 1, NORTH, monster, nb_monster)) {
 			player->y--;
 			move = 1;
 		}
 		break;
 
 	case SOUTH:
-		if (player_move_aux(player, map, x, y + 1, SOUTH)) {
+		if (player_move_aux(player, map, x, y + 1, SOUTH, monster, nb_monster)) {
 			player->y++;
 			move = 1;
 		}
 		break;
 
 	case WEST:
-		if (player_move_aux(player, map, x - 1, y, WEST)) {
+		if (player_move_aux(player, map, x - 1, y, WEST, monster, nb_monster)) {
 			player->x--;
 			move = 1;
 		}
 		break;
 
 	case EAST:
-		if (player_move_aux(player, map, x + 1, y, EAST)) {
+		if (player_move_aux(player, map, x + 1, y, EAST, monster, nb_monster)) {
 			player->x++;
 			move = 1;
 		}

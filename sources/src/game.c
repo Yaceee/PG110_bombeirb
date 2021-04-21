@@ -172,25 +172,25 @@ static short input_keyboard(struct game* game) {
 			case SDLK_UP:
 				if(!p){
 					player_set_current_way(player, NORTH);
-					player_move(player, map);	
+					player_move(player, map, game->monster, game->nb_monster);	
 				}
 				break;
 			case SDLK_DOWN:
 				if(!p){
 					player_set_current_way(player, SOUTH);
-					player_move(player, map);
+					player_move(player, map, game->monster, game->nb_monster);
 				}
 				break;
 			case SDLK_RIGHT:
 				if(!p){
 					player_set_current_way(player, EAST);
-					player_move(player, map);
+					player_move(player, map, game->monster, game->nb_monster);
 				}
 				break;
 			case SDLK_LEFT:
 				if(!p){
 					player_set_current_way(player, WEST);
-					player_move(player, map);
+					player_move(player, map, game->monster, game->nb_monster);
 				}
 				break;
 			case SDLK_SPACE:

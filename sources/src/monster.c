@@ -75,6 +75,23 @@ int monster_get_y(struct monster* monster) {
 	return monster->y;
 }
 
+int monster_on_pos(struct monster* monster[], int nb_monster, int x, int y)
+{
+	if(!nb_monster)
+	{
+		return 1;
+	}
+	for(int i = 0;i<nb_monster;i++)
+	{
+		if((monster_get_x(monster[i]) == x) && (monster_get_y(monster[i]) == y))
+		{
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
 void monster_set_current_way(struct monster* monster, enum direction way) {
 	assert(monster);
 	monster->direction = way;

@@ -7,6 +7,7 @@
 
 #include <map.h>
 #include <constant.h>
+#include <monster.h>
 
 struct player;
 
@@ -39,7 +40,7 @@ void player_inc_key(struct player* player);
 void player_dec_key(struct player* player);
 
 // Move the player according to the current direction
-int player_move(struct player* player, struct map* map);
+int player_move(struct player* player, struct map* map, struct monster* monster[], int nb_monster);
 
 int invulnerability();
 void adjust_Ancien_temps();

@@ -5,6 +5,7 @@
 #ifndef MAP_H_
 #define MAP_H_
 #include <lecture.h>
+#include <monster.h>
 
 enum cell_type {
 	CELL_EMPTY=0x00,   		//  0000 0000
@@ -110,6 +111,6 @@ void different_bomb_display(struct map* map, int x, int  y, unsigned char type);
 
 
 //collision avec les boites
-int box_collsion(struct map* map, int x, int y, int dir);
+int box_collision(struct map* map, int x, int y, int dir, struct monster* monster[], int nb_monster);
 
 #endif /* MAP_H_ */
