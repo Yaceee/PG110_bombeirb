@@ -32,9 +32,13 @@ struct monster* monster_init(int s)
 	return monster;
 }
 
-void monster_free(struct monster* monster) {
+void monster_free(struct monster* monster[], struct map* map, int *nb_monster) {
 	assert(monster);
-	free(monster);
+	for (int i = 0;i<*nb_monster;i++)
+	{
+		free(monster[i]);
+	}
+	*nb_monster = 0;
 }
 
 void monster_load(struct monster* monster[], struct map* map, int *nb_monster)

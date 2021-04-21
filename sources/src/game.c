@@ -25,22 +25,26 @@ struct game {
 	int nb_monster;
 };
 
-struct game*
-game_new(void) {
-	sprite_load(); // load sprites into process memory
+struct game* game_new(int nb_levels, char* map_src, int x, int y, int start_map) {
+	 // load sprites into process memory
 
 	struct game* game = malloc(sizeof(*game));
-	game->maps = malloc(sizeof(struct game));
-	game->maps[0] = map_get_static();
-	game->levels = 1;
-	game->level = 0;
+	game->levels = nb_levels;
+	game->maps = malloc(game->levels*sizeof(struct map*));
+	for(int i = 0;i<game->levels;i++)
+	{
+		char src[12];
+		sprintf(src, "./map/%s_%i", map_src, i);
+		game->maps[i] = map_load(src);
+	}
+	game->level = start_map;
 	game->nb_monster = 0;
 
 	game->player = player_init(3, 3);
 	// Set default location of the player
-	player_set_position(game->player, 1, 0);
+	player_set_position(game->player, x, y);
 
-	monster_load(game->monster,game->maps[0],&game->nb_monster);
+	monster_load(game->monster,game->maps[1],&game->nb_monster);
 
 	return game;
 }
@@ -51,6 +55,12 @@ void game_free(struct game* game) {
 	player_free(game->player);
 	for (int i = 0; i < game->levels; i++)
 		map_free(game->maps[i]);
+}
+
+void game_change_level(struct game* game, int n_level)
+{
+	assert(game);
+	game->level = n_level;
 }
 
 struct map* game_get_current_map(struct game* game) {

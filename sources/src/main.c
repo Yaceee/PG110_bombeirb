@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
 	// static time rate implementation
 	int done = 0;
 	while (!done) {
-		struct game* game = game_new();
+		
+		sprite_load();
 		while(!isHomepage)
 		{
 			timer = SDL_GetTicks();
@@ -52,6 +53,11 @@ int main(int argc, char *argv[]) {
 
 		if(choice == 0)
 		{
+			int nb_map = 0, start_map = 0, x = 0, y = 0;
+			char* name = malloc(5*sizeof(char));
+			read_world_file("./map/easy", &nb_map, &start_map, &x, &y, name);
+
+			struct game* game = game_new(nb_map, name, x, y, start_map);
 			while(!inGame)
 			{
 				timer = SDL_GetTicks();
@@ -73,15 +79,15 @@ int main(int argc, char *argv[]) {
 				if (execution_speed < ideal_speed)
 					SDL_Delay(ideal_speed - execution_speed); // we are ahead of ideal time. let's wait.
 			}
-			isHomepage = 0;	
+			isHomepage = 0;
+			inGame = 0;
+			game_free(game);
 		}
 		
 		if(choice == 1)
 		{
 			isHomepage = 0;
-		}
-		
-		game_free(game);
+		}		
 
 		if(choice == 2)
 		{

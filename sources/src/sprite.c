@@ -76,12 +76,10 @@ SDL_Surface* banner_life;
 SDL_Surface* banner_bomb;
 SDL_Surface* banner_range;
 SDL_Surface* banner_line;
-<<<<<<< HEAD
+
 SDL_Surface* banner_key;
 
-=======
 SDL_Surface* banner_pause;
->>>>>>> 4b0e9100fb19cdc4a73c101e8c525571db5ca1df
 
 // map
 SDL_Surface* box;

@@ -16,7 +16,7 @@ int p;
 struct game;
 
 // Create a new game
-struct game* game_new();
+struct game* game_new(int nb_levels, char* map_src, int x, int y, int start_map);
 
 // Free a game
 void game_free(struct game* game);

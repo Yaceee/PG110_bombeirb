@@ -128,6 +128,11 @@ void display_bonus(struct map* map, int x, int y, unsigned char type)
 	}
 }
 
+void display_key(struct map* map, int x, int y)
+{
+	
+}
+
 void display_scenery(struct map* map, int x, int  y, unsigned char type)
 {
 	switch (type & 0x0f) { // sub-types are encoded with the 4 less significant bits
@@ -281,7 +286,18 @@ int box_collsion(struct map* map, int x, int y, int dir) //prend en entrée la m
 }
 
 
+struct map* map_load(char* path)
+{
+	int* size = read_size_map(path);
+	struct map* map = map_new(size[0], size[1]);
+	
+	int * map_src=write_map(path);
+	for (int i = 0; i < 144; i++)
+		map->grid[i] = map_src[i];
 
+	return map;
+
+}
 
 struct map* map_get_static(void)
 {

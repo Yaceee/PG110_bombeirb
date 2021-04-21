@@ -99,6 +99,7 @@ void  map_set_cell(struct map* map, int x, int y, enum compose_type type);
 int map_is_inside(struct map* map, int x, int y);
 
 // Return a default static map
+struct map* map_load(char* path);
 struct map* map_get_static();
 int char_to_int(char c);
 int * write_map(char * name_map);

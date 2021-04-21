@@ -13,7 +13,7 @@ struct monster;
 
 // Creates a new monster with a given number of available bombs
 struct monster* monster_init(int s);
-void   monster_free(struct monster* monster);
+void monster_free(struct monster* monster[], struct map* map, int *nb_monster);
 
 void monster_load(struct monster* monster[], struct map* map, int* nb_monster);
 
